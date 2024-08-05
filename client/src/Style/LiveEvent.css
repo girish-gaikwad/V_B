@@ -1,0 +1,377 @@
+.imgcontainer.flex {
+  scroll-behavior: smooth;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.showFlowChart {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.showFlowChart.visible {
+  opacity: 1;
+}
+
+.createbutton,
+.imgcontainer {
+  transition: opacity 1s ease, height 1s ease-in-out, width 5s ease-in-out;
+}
+
+.card-container {
+  background-color: antiquewhite;
+  width: 80%;
+}
+
+* {
+  border: 0;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
+p {
+  font-size: 18px;
+  color: #234678;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+}
+
+.box {
+  width: 100vw;
+  height: 100vh;
+  background-color: gray;
+  display: flex;
+}
+
+.sidebar {
+  width: 15%;
+  height: 100vh;
+  background-color: #fdfdfd;
+  position: absolute;
+  box-shadow: 0.1em 0.1em 1em rgba(147, 145, 145, 0.8);
+}
+
+.websitename,
+.currentpage {
+  width: 200px;
+  padding-bottom: 100px;
+  position: relative;
+  top: 50px;
+  left: 35px;
+  color: aquamarine;
+}
+
+.websitename img,
+.currentpage img {
+  width: 25px;
+  margin-right: 10px;
+  height: 25px;
+}
+
+.rightwindow {
+  margin-left: 15%;
+  width: 85%;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wcover {
+  width: 98%;
+  height: 96%;
+  background-color: #f6f6f6;
+  display: flex;
+  padding-bottom: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0em 0em 0.1em rgba(147, 145, 145, 0.8);
+}
+
+.bell {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 15px;
+  width: 98%;
+  height: 9%;
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
+.circle {
+  width: 45px;
+  height: 45px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+button {
+  transition: display 0.5s ease;
+  margin-right: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 6.94px 22.8px 6.94px 22.8px;
+  margin-top: 15px;
+  background-image: linear-gradient(#3690ea, #1976d2);
+  height: 43px;
+  border: none;
+  border-radius: 8px;
+}
+
+.support {
+  width: 98%;
+  height: 87%;
+  justify-content: center;
+  align-items: center;
+}
+
+.change {
+  /* border: #ee5d50 solid; */
+  /* background-color: #00c820; */
+  transition: height 0.5s ease-in-out;
+  padding: 20px 20px 20px 10px;
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+}
+.lastcover {
+  width: 100%;
+  height: 100%;
+}
+
+.createbutton {
+  transition: display 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  margin-bottom: 15px;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imgcontainer {
+  padding-top: 15px;
+  padding-left: 15px;
+  transition: height 0.5s ease-in-out;
+  width: 98%;
+  height: 82%;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.imgcontainer img {
+  cursor: pointer;
+  height: 210px;
+  width: 200px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+.imgcontainer.grid {
+  overflow-y: scroll;
+  padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-auto-rows: 245px;
+}
+
+.circle img {
+  cursor: pointer;
+  border-radius: 50px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.createdetails {
+  height: 100%;
+  width: 45%;
+}
+.titlename {
+  padding-top: 12px;
+  margin-left: 30px;
+  font-size: 24px;
+  font-weight: 100;
+}
+.individual-card {
+  height: auto;
+  background-color: red;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.individual-card img {
+  border-radius: 5px;
+  opacity: 0.6;
+}
+.status1 {
+  color: #ee5d50;
+  padding-top: 1px;
+}
+
+.status2 {
+  color: #2d5dd9;
+  padding-top: 1px;
+}
+
+.titlename {
+  padding-top: 12px;
+  margin-left: 30px;
+  font-size: 24px;
+  font-weight: 100;
+}
+
+.status3 {
+  color: #00c820;
+  padding-top: 1px;
+  margin-left: 5px;
+  margin-right: 8px;
+}
+
+/* suresh made style */
+.data {
+  display: flex;
+  width: 100%;
+  padding-bottom: 8px;
+  margin-top: 5px;
+}
+
+.left-data {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+.left-data h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #4539b4;
+}
+
+.left-data p {
+  font-size: 14px;
+  font-weight: 800;
+  color: black;
+}
+
+.left-data h6 {
+  font-size: 10px;
+  font-weight: 900;
+  margin-top: 3px;
+  text-align: left;
+}
+
+.right-data {
+  margin-top: 15px;
+  margin-left: 18px;
+}
+
+.right-data h2 {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: "Open Sans", sans-serif;
+  color: #5a5a5a;
+  margin-bottom: 5px;
+}
+
+.right-data h5 {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  color: #2d2c3c;
+  margin-bottom: 4px;
+}
+
+.right-data p {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: "Open Sans", sans-serif;
+  color: #5a5a5a;
+}
+
+.divider {
+  display: flex;
+}
+
+.flowchart {
+  /* padding-top: 15  px; */
+  display: flex;
+  /* margin-left: 120px; */
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 25px; */
+  /* border: solid black; */
+  padding-left: 20px;
+  padding-right: 20px;
+  /* background-color: #00c820; */
+  width: 100%;
+  height: 100%;
+  /* overflow: scroll; */
+}
+/* FlowChart.css */
+
+.flow-chart {
+  position: relative; /* Ensure the FlowChart container is positioned relatively */
+}
+
+.dialog-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-paper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background-color: rgba(0, 0, 0, 0.5); /* Grey background effect */
+}
+
+.box-container {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  background-color: #fff; /* White background for the box */
+}

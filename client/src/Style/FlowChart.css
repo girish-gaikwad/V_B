@@ -1,0 +1,132 @@
+.flowname {
+  font-size: 12px;
+  margin-top: 8px;
+
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  color: #2b3674;
+}
+
+.logoimage div img {
+  width: 80%;
+  height: 85%;
+  margin: 5px 0 5px 1px;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+}
+
+.tree ul {
+  padding-top: 12px;
+
+  position: relative; 
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+.tree li {
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding-top: 20px;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+/* flow chart horizontal line */
+.tree li::before,
+.tree li::after {
+  content: "";
+  font-size: 50px;
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 1.5px solid black;
+  width: 50%;
+  height: 20px;
+  margin-top: 7px;
+}
+
+/* flow chart top-right line style */
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 1.5px solid black;
+  margin-bottom: 10px;
+  /* border-top-left-radius: 4px; */
+}
+/* flow chart top-left line style */
+
+.tree li:last-child::before {
+  border-right: 1.5px solid black;
+  -webkit-border-radius: 0 5px 0 0;
+  -moz-border-radius: 0 5px 0 0;
+  padding: 1px;
+}
+/* flowchart bottom line */
+.tree ul ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1.5px solid black;
+  width: 0;
+  height: 15px;
+  margin-top: 5px;
+}
+
+
+
+
+.tree li:only-child {
+  padding-top: 0;
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+  width: 0;
+}
+
+.tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+}
+
+.logoimage {
+  width: 95px;
+  height: 100px;
+  margin: 15px 35px 0px 35px;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 11.05px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+.tree li div div {
+  width: 90px;
+  height: 70px;
+  border: 2.5px solid #f77575;
+  background-color: #fe6f6f45;
+  border-radius: 11.05px;
+}
+
+.tree li div:hover + ul li::after,
+.tree li div:hover + ul li::before,
+.tree li div:hover + ul::before,
+.tree li div:hover + ul ul::before {
+  border-color: rgb(255, 0, 0);
+  border-width: 2px;
+
+}
+
+@media (max-width: 8px) {
+}
