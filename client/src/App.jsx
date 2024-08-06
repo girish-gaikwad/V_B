@@ -7,8 +7,8 @@ import Demo from "./Pages/Demo";
 function App() {
   return (
     <>
-    {/* <LiveEvent/> */}
-<Demo/>
+    <LiveEvent/>
+{/* <Demo/> */}
     </>
   );
 }

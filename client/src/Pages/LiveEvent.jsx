@@ -9,6 +9,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import TreeStructure from "./FlowChart";
+import { helix } from "ldrs";
 
 function LiveEvent() {
   const [card, setCard] = useState(false);
@@ -18,19 +19,25 @@ function LiveEvent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  helix.register();
+
   useEffect(() => {
     axios
-      .get(`http://10.10.202.241:8000/event-booking/eventdata`)
+      .get(`http://10.10.16.100:8000/event-booking/eventdata`)
       .then((response) => {
         setEvents(response.data);
         setCard(true);
         handleCardsView();
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false); 
+        }, 5000);
       })
       .catch((error) => {
         console.error("Error fetching events:", error);
-        setError("Failed to fetch events");
-        setLoading(false);
+        setError("503 Failed to Get Data");
+        setTimeout(() => {
+          setLoading(false); 
+        }, 5000);
       });
   }, []);
 
@@ -127,11 +134,34 @@ function LiveEvent() {
     return { day, month: months[parseInt(month) - 1], year };
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection:"column",
+          justifyContent: "center",
+          alignItems: "center",height:"100vh",
+        }}
+      >
+        <l-helix size="95" speed="2.5" color="black"></l-helix>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection:"column",
+          justifyContent: "center",
+          alignItems: "center",height:"100vh"
+        }}
+      >
+        <l-helix size="95" speed="2.5" color="black"></l-helix>
+        <p style={{color:"red",marginTop:"30px",}}>Error: {error}</p>
+      </div>
+    );
   }
 
   return (
