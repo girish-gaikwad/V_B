@@ -1,0 +1,42 @@
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f6f6f6;
+  height: 100vh;
+}
+.login {
+  width: 850px;
+  margin: auto;
+  height: 500px;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  border-radius: 20px;
+  display: flex;
+    }
+.left {
+  width: 50%;
+  overflow: hidden;
+  padding: 15px;
+}
+.left img {
+  width: 400px;
+  height: 100%;
+  object-fit: cover;
+}
+.right {
+  font-size: 20px;
+  width: 50%;
+  text-align: center;
+}
+.right img {
+  width: 250px;
+  overflow-y: hidden;
+  height: 250px;
+}
+.google-button{
+    margin-top: 50px;
+    width: 300px;
+}

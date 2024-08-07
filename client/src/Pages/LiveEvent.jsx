@@ -23,21 +23,21 @@ function LiveEvent() {
 
   useEffect(() => {
     axios
-      .get(`http://10.10.16.100:8000/event-booking/eventdata`)
+      .get(`http://10.10.16.169:8000/event-booking/eventdata`)
       .then((response) => {
         setEvents(response.data);
         setCard(true);
         handleCardsView();
         setTimeout(() => {
           setLoading(false); 
-        }, 5000);
+        }, 2500);
       })
       .catch((error) => {
         console.error("Error fetching events:", error);
         setError("503 Failed to Get Data");
         setTimeout(() => {
           setLoading(false); 
-        }, 5000);
+        }, 2500);
       });
   }, []);
 
@@ -143,7 +143,7 @@ function LiveEvent() {
           alignItems: "center",height:"100vh",
         }}
       >
-        <l-helix size="95" speed="2.5" color="black"></l-helix>
+        <l-helix size="95" speed="2.5" color="rgb(29, 60, 140)"></l-helix>
       </div>
     );
   }
