@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import accimg from "../img/image1.png";
+import logo from "../img/image.png";
+import exe from "../img/exe.png";
+import person from "../img/person.png";
 import axios from "axios";
-import cards from "../Assets/download.jpg";
-import Accountuser from "../Assets/account_circle.png";
 import "../Style/LiveEvent.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,7 +13,7 @@ import Divider from "@mui/material/Divider";
 import TreeStructure from "./FlowChart";
 import { helix } from "ldrs";
 
-function LiveEvent() {
+function Home() {
   const [card, setCard] = useState(false);
   const [eventx, setEvents] = useState([]);
   const [showNewDiv, setShowNewDiv] = useState(false);
@@ -21,29 +23,90 @@ function LiveEvent() {
 
   helix.register();
 
+  function handleCardsView() {
+    const imgtocard = document.querySelector(".imgcontainer");
+    const changeDiv = document.querySelector(".change");
+  
+    if (eventx.length > 0 && changeDiv) {
+      changeDiv.style.height = "100%";
+    }
+  
+    if (imgtocard) {
+      imgtocard.style.height = "90%";
+      imgtocard.classList.remove("center"); // Remove center class when cards are shown
+      imgtocard.classList.remove("flex"); // Remove flex class
+      imgtocard.classList.add("grid"); // Add grid class
+      imgtocard.classList.add("fade-in"); // Add fade-in class for animation
+    }
+  }
+  
+
+  // for frontend development
+  // useEffect(() => {
+  //   const events = [
+      
+  //     {
+  //       id: 1,
+  //       code: "TD1034",
+  //       name: "Symposium - ITRONZ",
+  //       fromtime: "21:30:00",
+  //       totime: "03:30:00",
+  //       fromdate: "01-12-2024",
+  //       todate: "02-12-2024",
+  //       status: 1,
+  //     },
+        
+  //     {
+  //       id: 2,
+  //       code: "TD1035",
+  //       name: "Conference - TECHFEST",
+  //       fromtime: "10:00:00",
+  //       totime: "17:00:00",
+  //       fromdate: "03-12-2024",
+  //       todate: "03-12-2024",
+  //       status: 2,
+  //     },
+      
+  //   ];
+  //   setEvents(events);
+  //   if (events.length > 0) {
+  //     setCard(true);
+  //     setLoading(false)
+  //     handleCardsView();
+  //   }
+  // }, []);
+
+
+
+  // the real logic
   useEffect(() => {
     axios
-      .get(`http://10.10.16.169:8000/event-booking/eventdata`)
+      .get(`http://localhost:8000/event-booking/eventdata`)
       .then((response) => {
         setEvents(response.data);
-        setCard(true);
-        handleCardsView();
-        setTimeout(() => {
-          setLoading(false); 
-        }, 2500);
+        setLoading(false);
+        if (response.data.length > 0) {
+          setCard(true);
+        }
       })
       .catch((error) => {
         console.error("Error fetching events:", error);
         setError("503 Failed to Get Data");
-        setTimeout(() => {
-          setLoading(false); 
-        }, 2500);
+        setLoading(false);
       });
   }, []);
+  
+  useEffect(() => {
+    if (eventx.length > 0) {
+      handleCardsView();
+    }
+  }, [eventx]);
+  
 
   function handelcreate() {
     const elements = document.getElementsByClassName("change");
-    if (elements.length < 0) {
+
+    if (elements.length > 0) {
       const element = elements[0];
       element.style.height = "100%";
     }
@@ -79,22 +142,7 @@ function LiveEvent() {
     }, 500); // delay to allow fade-out animation
   }
 
-  function handleCardsView() {
-    const imgtocard = document.querySelector(".imgcontainer");
-    const elements = document.getElementsByClassName("change");
-
-    if (elements.length > 0) {
-      const element = elements[0];
-      element.style.height = "100%";
-    }
-    if (imgtocard) {
-      imgtocard.style.height = "90%";
-      imgtocard.classList.remove("center"); // Remove center class when cards are shown
-      imgtocard.classList.remove("flex"); // Remove flex class
-      imgtocard.classList.add("grid"); // Add grid class
-      imgtocard.classList.add("fade-in"); // Add fade-in class for animation
-    }
-  }
+  
 
   function handlePersonImageView() {
     const imgtocard = document.querySelector(".imgcontainer");
@@ -104,6 +152,7 @@ function LiveEvent() {
       imgtocard.classList.add("fade-in"); // Add fade-in class for animation
     }
   }
+
   const timeconverter = (time) => {
     const [hours, minutes] = time.split(":");
     const h = parseInt(hours, 10);
@@ -133,16 +182,26 @@ function LiveEvent() {
     const year = date.getFullYear();
     return { day, month: months[parseInt(month) - 1], year };
   };
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDialogStateChange = (isOpen) => {
+    setIsDialogOpen(isOpen);
+  };
+
   if (loading) {
     return (
       <div
         style={{
           display: "flex",
-          flexDirection:"column",
+          flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",height:"100vh",
+          alignItems: "center",
+          height: "100vh",
+          backgroundColor:"#f6f6f6",
+          width:"100vw"
         }}
-      >
+        >
         <l-helix size="95" speed="2.5" color="rgb(29, 60, 140)"></l-helix>
       </div>
     );
@@ -151,15 +210,18 @@ function LiveEvent() {
   if (error) {
     return (
       <div
-        style={{
-          display: "flex",
-          flexDirection:"column",
-          justifyContent: "center",
-          alignItems: "center",height:"100vh"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        width:"100vw",
+        backgroundColor:"#f6f6f6"
         }}
       >
         <l-helix size="95" speed="2.5" color="black"></l-helix>
-        <p style={{color:"red",marginTop:"30px",}}>Error: {error}</p>
+        <p style={{ color: "red", marginTop: "30px" }}>Error: {error}</p>
       </div>
     );
   }
@@ -170,12 +232,14 @@ function LiveEvent() {
         <div className="sidebar">
           <div className="websitename">
             <div className="tags">
+              <img src={logo} alt="Website Logo" />
               <p>Event</p>
             </div>
           </div>
 
           <div className="currentpage">
             <div className="tags">
+              <img src={exe} alt="Create Event" />
               <p>Create Event</p>
             </div>
           </div>
@@ -185,11 +249,12 @@ function LiveEvent() {
           <div className="wcover">
             <div className="bell">
               <div className="circle">
-                <img src={Accountuser} alt="Account" className="accimgx" />
+                <img src={accimg} alt="Account" className="accimgx" />
               </div>
             </div>
             <div className="support">
-              <div className="change">
+              <div className={`change ${isDialogOpen ? "dialog-open" : ""}`}>
+
                 <div className="createbutton">
                   <div>
                     {card ? (
@@ -214,24 +279,30 @@ function LiveEvent() {
                     card ? "grid fade-in" : "flex fade-in"
                   }`}
                 >
+
                   {card ? (
                     eventx.map((event, index) => (
                       <Card
                         key={index}
                         variant="outlined"
-                        sx={{ width: 280 }}
+                        sx={{ width: 280  }}
                         className="individual-card"
                       >
                         <AspectRatio ratio="2">
-                          <img src={cards} loading="lazy" alt="" />
+                          <img
+                            src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                            srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                            loading="lazy"
+                            alt=""
+                          />
                         </AspectRatio>
                         <div className="divider">
                           <div className="data">
                             <div className="left-data">
-                              <h2>{formatDate(event.fromdate).month}</h2>
+                              <h2>{formatDate(event.start_date).month}</h2>
                               <p>
-                                {formatDate(event.fromdate).day} -
-                                {formatDate(event.todate).day}
+                                {formatDate(event.start_date).day} -{" "}
+                                {formatDate(event.end_date).day}
                               </p>
                               <h6
                                 className={
@@ -249,18 +320,19 @@ function LiveEvent() {
                                   : event.status === 2
                                   ? "IN-PROGRESS"
                                   : event.status === 3
-                                  ? "ALLOCATED"
+                                  ? "ASSIGNED "
                                   : ""}
+                                &nbsp;
                               </h6>
                             </div>
 
                             <div className="right-data">
-                              <h2>{event.code}</h2>
-                              <h5>{event.name}</h5>
-                              <p>
+                              <h2>{event.event_code}</h2>
+                              <h5>{event.event_name}</h5>
+                              {/* <p>
                                 {timeconverter(event.fromtime)} -
                                 {timeconverter(event.totime)}
-                              </p>
+                              </p> */}
                             </div>
                           </div>
                         </div>
@@ -270,17 +342,28 @@ function LiveEvent() {
                   ) : (
                     <img
                       onClick={handelcreate}
-                      src={cards}
+                      src={person}
                       alt="Person"
                       id="personx"
                     />
                   )}
                 </div>
+
+
+
+
                 {showNewDiv && (
-                  <div className="chart">
-                    <TreeStructure />
+                  <div className="flowchart">
+                    <TreeStructure
+                      onDialogStateChange={handleDialogStateChange}
+                    />
                   </div>
                 )}
+
+
+
+
+                
               </div>
             </div>
           </div>
@@ -290,4 +373,4 @@ function LiveEvent() {
   );
 }
 
-export default LiveEvent;
+export default Home;

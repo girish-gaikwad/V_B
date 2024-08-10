@@ -3,6 +3,9 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const os = require("os");
+const { OAuth2Client } = require('google-auth-library');
+
+
 
 dotenv.config();
 
@@ -12,6 +15,33 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+app.post('/auth/google', async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const name = payload.name;
+
+    // Check if the email belongs to the college domain
+    if (email.endsWith('@bitsathy.ac.in')) {
+      res.status(200).json({ email, name });
+    } else {
+      res.status(403).json({ error: 'Invalid email domain' });
+    }
+  } catch (error) {
+    res.status(401).json({ error: 'Invalid token' });
+  }
+});
 
 const eventRoutes = require("./routes/EventRoutes");
 
@@ -44,7 +74,7 @@ const getLocalIpAddress = () => {
 };
 
 const PORT = process.env.PORT || 8000;
-const HOST = getLocalIpAddress();
+const HOST = "localhost";
 
 app.listen(PORT, () => {
   const PROTOCOL = "http"; // Assuming you're using HTTP

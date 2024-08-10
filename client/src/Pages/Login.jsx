@@ -1,21 +1,45 @@
-import React from "react";
-import "../Style/Login.css";
+import React from 'react';
+import { GoogleLogin } from 'react-google-login';
 
-function Login() {
+const GoogleLoginButton = () => {
+  const handleSuccess = (response) => {
+    const token = response.tokenId;
+    
+    // Send the token to your backend for verification and email extraction
+    fetch('http://localhost:5000/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const { email, name } = data;
+        if (email.endsWith('@bitsathy.ac.in')) {
+          console.log('Login successful:', email, name);
+        } else {
+          console.error('Invalid email domain');
+        }
+      })
+      .catch((error) => {
+        console.error('Login failed:', error);
+      });
+  };
+
+  const handleError = (error) => {
+    console.error('Google login error:', error);
+  };
+
   return (
-    <div className="login-body">
-      <div className="login">
-        <div className="left">
-          <img src='https://img.freepik.com/free-vector/book-your-date-mobile-phone_23-2148552969.jpg?w=740&t=st=1723013022~exp=1723013622~hmac=c1689ebfa28884667b03ea86bf7e1db27c81dc026080c215edc6d1c4382c479e' alt="Login" />
-          </div>
-        <div className="right">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYB-39YIn8M7nenZPpLqrS485KtB_nMVAvgA&s"/>
-          <h1>Welcome Back</h1>
-          <button type="submit" className="google-button">sign in with google</button>
-        </div>
-      </div>
-    </div>
+    <GoogleLogin
+      clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+      buttonText="Login with Google"
+      onSuccess={handleSuccess}
+      onFailure={handleError}
+      cookiePolicy={'single_host_origin'}
+    />
   );
-}
+};
 
-export default Login;
+export default GoogleLoginButton;
