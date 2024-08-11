@@ -42,55 +42,55 @@ function Home() {
   
 
   // for frontend development
-  useEffect(() => {
-    const events = [
+  // useEffect(() => {
+  //   const events = [
       
-      {
-        id: 1,
-        event_code: "TD1034",
-        event_name: "Symposium - ITRONZ",
-        start_date: "21:30:00",
-        end_date: "03:30:00",
-        status: 1,
-      },
+  //     {
+  //       id: 1,
+  //       event_code: "TD1034",
+  //       event_name: "Symposium - ITRONZ",
+  //       start_date: "21:30:00",
+  //       end_date: "03:30:00",
+  //       status: 1,
+  //     },
         
-      {
-        id: 2,
-        event_code: "TD1035",
-        event_name: "Conference - TECHFEST",
-        start_date: "10:00:00",
-        end_date: "17:00:00",
-        status: 2,
-      },
+  //     {
+  //       id: 2,
+  //       event_code: "TD1035",
+  //       event_name: "Conference - TECHFEST",
+  //       start_date: "10:00:00",
+  //       end_date: "17:00:00",
+  //       status: 2,
+  //     },
       
-    ];
-    setEvents(events);
-    if (events.length > 0) {
-      setCard(true);
-      setLoading(false)
-      handleCardsView();
-    }
-  }, []);
+  //   ];
+  //   setEvents(events);
+  //   if (events.length > 0) {
+  //     setCard(true);
+  //     setLoading(false)
+  //     handleCardsView();
+  //   }
+  // }, []);
 
 
 
   // the real logic
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8000/event-booking/eventdata`)
-  //     .then((response) => {
-  //       setEvents(response.data);
-  //       setLoading(false);
-  //       if (response.data.length > 0) {
-  //         setCard(true);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching events:", error);
-  //       setError("503 Failed to Get Data");
-  //       setLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/event-booking/eventdata`)
+      .then((response) => {
+        setEvents(response.data);
+        setLoading(false);
+        if (response.data.length > 0) {
+          setCard(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+        setError("503 Failed to Get Data");
+        setLoading(false);
+      });
+  }, []);
   
   useEffect(() => {
     if (eventx.length > 0) {
