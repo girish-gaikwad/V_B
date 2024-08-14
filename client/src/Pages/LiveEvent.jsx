@@ -41,43 +41,11 @@ function Home() {
   }
   
 
-  // for frontend development
-  // useEffect(() => {
-  //   const events = [
-      
-  //     {
-  //       id: 1,
-  //       event_code: "TD1034",
-  //       event_name: "Symposium - ITRONZ",
-  //       start_date: "21:30:00",
-  //       end_date: "03:30:00",
-  //       status: 1,
-  //     },
-        
-  //     {
-  //       id: 2,
-  //       event_code: "TD1035",
-  //       event_name: "Conference - TECHFEST",
-  //       start_date: "10:00:00",
-  //       end_date: "17:00:00",
-  //       status: 2,
-  //     },
-      
-  //   ];
-  //   setEvents(events);
-  //   if (events.length > 0) {
-  //     setCard(true);
-  //     setLoading(false)
-  //     handleCardsView();
-  //   }
-  // }, []);
-
-
-
-  // the real logic
+ 
+  // the backend logic
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/event-booking/eventdata`)
+      .get(`http://localhost:8000/get/eventdata`)
       .then((response) => {
         setEvents(response.data);
         setLoading(false);
@@ -295,10 +263,10 @@ function Home() {
                         <div className="divider">
                           <div className="data">
                             <div className="left-data">
-                              <h2>{formatDate(event.start_date).month}</h2>
+                              <h2>{formatDate(event.start_at).month}</h2>
                               <p>
-                                {formatDate(event.start_date).day} -{" "}
-                                {formatDate(event.end_date).day}
+                                {formatDate(event.start_at).day} -{" "}
+                                {formatDate(event.end_at).day}
                               </p>
                               <h6
                                 className={

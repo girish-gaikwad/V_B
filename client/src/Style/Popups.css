@@ -1,0 +1,91 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  width: 60%;
+  height: 70%;
+  margin-left: 150px;
+}
+
+.popup-content h2 {
+  margin-bottom: 10px;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-buttons button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+.popup-buttons button:last-child {
+  background-color: #6c757d;
+}
+.event-form {
+  padding: 20px;
+}
+.event-form label{
+    color: #2B3674;
+}
+.event-form input {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.event-form .datebox{
+    display: flex;
+
+}
+.event-form .datebox input{
+    width: 25%;
+    margin-top: 25px;
+}
+.event-type{
+    margin: 10px 0;
+}
+.event-type input[type="radio"] {
+    display: none;
+}
+
+.event-type label {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: rgb(80, 80, 80);
+  margin: 5px;
+  display: inline-block;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.event-type input[type="radio"]:checked + label {
+  background: linear-gradient(#3690ea, #1976d2);
+  color: white;
+}

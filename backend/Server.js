@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const os = require("os");
-const { OAuth2Client } = require('google-auth-library');
 
 
 
@@ -17,35 +16,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-app.post('/auth/google', async (req, res) => {
-  const { token } = req.body;
-
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-
-    const payload = ticket.getPayload();
-    const email = payload.email;
-    const name = payload.name;
-
-    // Check if the email belongs to the college domain
-    if (email.endsWith('@bitsathy.ac.in')) {
-      res.status(200).json({ email, name });
-    } else {
-      res.status(403).json({ error: 'Invalid email domain' });
-    }
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-});
 
 const eventRoutes = require("./routes/EventRoutes");
+const PostRoutes = require("./routes/PostRoutes");
 
-app.use("/event-booking", eventRoutes);
+app.use("/get", eventRoutes);
+app.use("/post", PostRoutes);
 
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
