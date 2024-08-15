@@ -20,6 +20,7 @@
   width: 60%;
   height: 70%;
   margin-left: 150px;
+  position: relative;;
 }
 
 .popup-content h2 {
@@ -27,16 +28,18 @@
 }
 
 .popup-buttons {
-  display: flex;
-  justify-content: space-between;
+  position:absolute;
+  bottom: 30px;
+  right: 15px;
 }
 
 .popup-buttons button {
-  padding: 8px 12px;
+  padding: 3px 18px;
+  height: 35px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #007bff;
+  background-image: linear-gradient(#3690ea, #1976d2);
   color: white;
 }
 
@@ -52,7 +55,7 @@
 .event-form input {
   width: 95%;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-top: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;

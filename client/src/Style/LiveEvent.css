@@ -119,10 +119,11 @@ p {
 .imgcontainer.grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-gap: 16px;
+  gap:245px 16px;
   align-items: start;
-  justify-content: start; /* Align to the left */
-  max-width: calc(4 * 280px + 3 * 16px); /* Width for 4 cards including gaps */
+  justify-content: start;
+  max-width: calc(4 * 280px + 3 * 16px); 
+  overflow-y: scroll;
 }
 
 
@@ -137,7 +138,7 @@ button {
   transition: display 0.5s ease;
   margin-right: 20px;
   margin-top: 15px;
-  background-image: linear-gradient(#3690ea, #1976d2);
+  background: linear-gradient(#3690ea, #1976d2);
   height: 43px;
   border: none;
   border-radius: 8px;

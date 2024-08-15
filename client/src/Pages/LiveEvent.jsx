@@ -26,11 +26,11 @@ function Home() {
   function handleCardsView() {
     const imgtocard = document.querySelector(".imgcontainer");
     const changeDiv = document.querySelector(".change");
-  
+
     if (eventx.length > 0 && changeDiv) {
       changeDiv.style.height = "100%";
     }
-  
+
     if (imgtocard) {
       imgtocard.style.height = "90%";
       imgtocard.classList.remove("center"); // Remove center class when cards are shown
@@ -39,9 +39,7 @@ function Home() {
       imgtocard.classList.add("fade-in"); // Add fade-in class for animation
     }
   }
-  
 
- 
   // the backend logic
   useEffect(() => {
     axios
@@ -59,13 +57,12 @@ function Home() {
         setLoading(false);
       });
   }, []);
-  
+
   useEffect(() => {
     if (eventx.length > 0) {
       handleCardsView();
     }
   }, [eventx]);
-  
 
   function handelcreate() {
     const elements = document.getElementsByClassName("change");
@@ -106,8 +103,6 @@ function Home() {
     }, 500); // delay to allow fade-out animation
   }
 
-  
-
   function handlePersonImageView() {
     const imgtocard = document.querySelector(".imgcontainer");
     if (imgtocard) {
@@ -117,13 +112,17 @@ function Home() {
     }
   }
 
-  const timeconverter = (time) => {
-    const [hours, minutes] = time.split(":");
+  const timeconverter = (datetime) => {
+  
+    
+    const [hours, minutes] = datetime.split(":");
     const h = parseInt(hours, 10);
     const period = h >= 12 ? "PM" : "AM";
     const Hour = h % 12 || 12;
+    
     return `${Hour}:${minutes} ${period}`;
   };
+  
 
   const formatDate = (isoString) => {
     const months = [
@@ -162,10 +161,10 @@ function Home() {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
-          backgroundColor:"#f6f6f6",
-          width:"100vw"
+          backgroundColor: "#f6f6f6",
+          width: "100vw",
         }}
-        >
+      >
         <l-helix size="95" speed="2.5" color="rgb(29, 60, 140)"></l-helix>
       </div>
     );
@@ -174,14 +173,14 @@ function Home() {
   if (error) {
     return (
       <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        width:"100vw",
-        backgroundColor:"#f6f6f6"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#f6f6f6",
         }}
       >
         <l-helix size="95" speed="2.5" color="black"></l-helix>
@@ -218,7 +217,6 @@ function Home() {
             </div>
             <div className="support">
               <div className={`change ${isDialogOpen ? "dialog-open" : ""}`}>
-
                 <div className="createbutton">
                   <div>
                     {card ? (
@@ -243,13 +241,12 @@ function Home() {
                     card ? "grid fade-in" : "flex fade-in"
                   }`}
                 >
-
                   {card ? (
                     eventx.map((event, index) => (
                       <Card
                         key={index}
                         variant="outlined"
-                        sx={{ width: 280  }}
+                        sx={{ width: 280 }}
                         className="individual-card"
                       >
                         <AspectRatio ratio="2">
@@ -293,10 +290,10 @@ function Home() {
                             <div className="right-data">
                               <h2>{event.event_code}</h2>
                               <h5>{event.event_name}</h5>
-                              {/* <p>
-                                {timeconverter(event.fromtime)} -
-                                {timeconverter(event.totime)}
-                              </p> */}
+                              <p>
+                                {timeconverter(event.start_at)} -{" "}
+                                {timeconverter(event.end_at)}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -313,9 +310,6 @@ function Home() {
                   )}
                 </div>
 
-
-
-
                 {showNewDiv && (
                   <div className="flowchart">
                     <TreeStructure
@@ -323,11 +317,6 @@ function Home() {
                     />
                   </div>
                 )}
-
-
-
-
-                
               </div>
             </div>
           </div>

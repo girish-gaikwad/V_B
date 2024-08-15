@@ -17,10 +17,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 
-const eventRoutes = require("./routes/EventRoutes");
+const GetRoutes = require("./routes/GetRoutes");
 const PostRoutes = require("./routes/PostRoutes");
 
-app.use("/get", eventRoutes);
+app.use("/get", GetRoutes);
 app.use("/post", PostRoutes);
 
 app.use((err, req, res, next) => {

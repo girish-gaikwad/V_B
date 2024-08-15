@@ -9,7 +9,7 @@ import Accomodation from "../Assets/Accomodation.png";
 import Food from "../Assets/Food.png";
 import VenueRequirements from "../Assets/Venue Requirements.png";
 
-import {  EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup,TransportPopup,VenuePopup,VenueRequirementPopup } from "./Popups";
+import { EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup, TransportPopup, VenuePopup, VenueRequirementPopup } from "./Popups";
 
 const treeData = [
   {
@@ -26,7 +26,6 @@ const treeData = [
             image: Guest,
             popup: "GuestPopup",
             children: [
-              
               {
                 id: "Accomodation",
                 image: Accomodation,
@@ -43,11 +42,9 @@ const treeData = [
             id: "Participants",
             image: Participants,
             popup: "ParticipantsPopup",
-            
           },
         ],
       },
-      
       {
         id: "Venue",
         image: Venue,
@@ -65,12 +62,17 @@ const treeData = [
 ];
 
 const TreeStructure = () => {
+  // **New state variable to track if the Event is completed**
+  const [isEventCompleted, setIsEventCompleted] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [colorMap, setColorMap] = useState({});
   const [changeborder, setborder] = useState({});
 
   const handleBoxClick = (item) => {
-    setSelectedItem(item);
+    // **Only allow Event form to be clicked initially**
+    if (item.id === "Event" || isEventCompleted) {
+      setSelectedItem(item);
+    }
   };
 
   const handleSave = () => {
@@ -82,6 +84,11 @@ const TreeStructure = () => {
       ...prev,
       [selectedItem.id]: "2.5px solid #2d5dd9",
     }));
+
+    // **If the saved item is Event, mark it as completed**
+    if (selectedItem.id === "Event") {
+      setIsEventCompleted(true);
+    }
   };
 
   const renderPopup = () => {
@@ -114,13 +121,13 @@ const TreeStructure = () => {
 
   return (
     <div className="tree">
-      {treeRendering(treeData, handleBoxClick, colorMap,changeborder)}
+      {treeRendering(treeData, handleBoxClick, colorMap, changeborder)}
       {renderPopup()}
     </div>
   );
 };
 
-const treeRendering = (treeData, handleBoxClick, colorMap,changeborder) => {
+const treeRendering = (treeData, handleBoxClick, colorMap, changeborder) => {
   return (
     <ul>
       {treeData.map((item) => (
@@ -129,8 +136,10 @@ const treeRendering = (treeData, handleBoxClick, colorMap,changeborder) => {
             <div
               className="formbox"
               style={{
-                border: changeborder[item.id]||"2.5px solid #f77575",
+                border: changeborder[item.id] || "2.5px solid #f77575",
                 backgroundColor: colorMap[item.id] || "#fe6f6f45",
+                // **Disable cursor for forms other than Event when Event is not completed**
+                cursor: item.id !== "Event" && !colorMap["Event"] ? "not-allowed" : "pointer",
               }}
             >
               <img src={item.image} alt={item.id} />
@@ -138,7 +147,7 @@ const treeRendering = (treeData, handleBoxClick, colorMap,changeborder) => {
             <h6 className="flowname">{item.id}</h6>
           </div>
           {item.children && item.children.length
-            ? treeRendering(item.children, handleBoxClick, colorMap,changeborder)
+            ? treeRendering(item.children, handleBoxClick, colorMap, changeborder)
             : null}
         </li>
       ))}
