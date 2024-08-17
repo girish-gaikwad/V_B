@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../Style/Popups.css";
+import "./popUps.css";
 import { Input } from "@chakra-ui/react";
 
 const EventPopup = ({ onClose, onSave }) => {

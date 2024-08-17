@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import accimg from "../img/image1.png";
-import logo from "../img/image.png";
-import exe from "../img/exe.png";
-import person from "../img/person.png";
+import account from "../../assets/account_circle.png";
+import Eventlogo from "../../assets/EventLogo.png";
+import createventlogo from "../../assets/createventlogo.png";
+import person from "../../assets/person.png";
 import axios from "axios";
-import download from "../Assets/download.jpg";
-import "../Style/LiveEvent.css";
+import download from "../../assets/download.jpg";
+import "./liveEvent.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import TreeStructure from "./FlowChart";
 import { helix } from "ldrs";
+import TreeStructure from "../flowchart/flowChart";
 
-function Home() {
+function LiveEvent() {
   const [card, setCard] = useState(false);
   const [eventx, setEvents] = useState([]);
   const [showNewDiv, setShowNewDiv] = useState(false);
@@ -114,16 +114,14 @@ function Home() {
   }
 
   // const timeconverter = (datetime) => {
-  
-    
+
   //   const [hours, minutes] = datetime.split(":");
   //   const h = parseInt(hours, 10);
   //   const period = h >= 12 ? "PM" : "AM";
   //   const Hour = h % 12 || 12;
-    
+
   //   return `${Hour}:${minutes} ${period}`;
   // };
-  
 
   const formatDate = (isoString) => {
     const months = [
@@ -196,14 +194,14 @@ function Home() {
         <div className="sidebar">
           <div className="websitename">
             <div className="tags">
-              <img src={logo} alt="Website Logo" />
+              <img src={Eventlogo} alt="Website Logo" />
               <p>Event</p>
             </div>
           </div>
 
           <div className="currentpage">
             <div className="tags">
-              <img src={exe} alt="Create Event" />
+              <img src={createventlogo} alt="Create Event" />
               <p>Create Event</p>
             </div>
           </div>
@@ -213,7 +211,7 @@ function Home() {
           <div className="wcover">
             <div className="bell">
               <div className="circle">
-                <img src={accimg} alt="Account" className="accimgx" />
+                <img src={account} alt="Account" className="accimgx" />
               </div>
             </div>
             <div className="support">
@@ -251,11 +249,7 @@ function Home() {
                         className="individual-card"
                       >
                         <AspectRatio ratio="2">
-                          <img
-                            src={download} 
-                            loading="lazy"
-                            alt=""
-                          />
+                          <img src={download} loading="lazy" alt="" />
                         </AspectRatio>
                         <div className="divider">
                           <div className="data">
@@ -311,9 +305,9 @@ function Home() {
                 </div>
 
                 {showNewDiv && (
-                    <TreeStructure
-                      onDialogStateChange={handleDialogStateChange}
-                    />
+                  <TreeStructure
+                    onDialogStateChange={handleDialogStateChange}
+                  />
                 )}
               </div>
             </div>
@@ -324,4 +318,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default LiveEvent;

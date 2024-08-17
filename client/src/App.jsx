@@ -1,14 +1,13 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import TreeStructure from "./Pages/FlowChart";
-import LiveEvent from "./Pages/LiveEvent";
-import GoogleLoginButton from "./Pages/Login";
+import LiveEvent from "./pages/liveevent/liveEvent";
+// import TreeStructure from "./pages/flowchart/FlowChart";
 
 function App() {
   return (
     <>
-    <LiveEvent/>
-{/* <GoogleLoginButton/> */}
+      <LiveEvent />
+      {/* <TreeStructure/> */}
     </>
   );
 }

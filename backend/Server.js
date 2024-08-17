@@ -50,7 +50,7 @@ const getLocalIpAddress = () => {
 };
 
 const PORT = process.env.PORT || 8000;
-const HOST = getLocalIpAddress();
+const HOST = "localhost";
 
 app.listen(PORT, () => {
   const PROTOCOL = "http"; // Assuming you're using HTTP

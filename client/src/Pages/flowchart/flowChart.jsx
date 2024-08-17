@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import "../Style/FlowChart.css";
-import Event from "../Assets/Event.png";
-import Guest from "../Assets/Guest.png";
-import Participants from "../Assets/Participants.png";
-import Venue from "../Assets/Venue.png";
-import Transport from "../Assets/Transport.png";
-import Accomodation from "../Assets/Accomodation.png";
-import Food from "../Assets/Food.png";
-import VenueRequirements from "../Assets/Venue Requirements.png";
+import "./flowChart.css";
+import Event from "../../assets/Event.png";
+import Guest from "../../assets/Guest.png";
+import Participants from "../../assets/Participants.png";
+import Venue from "../../assets/Venue.png";
+import Transport from "../../assets/Transport.png";
+import Accomodation from "../../assets/Accomodation.png";
+import Food from "../../assets/Food.png";
+import VenueRequirements from "../../assets/Venue Requirements.png";
 import { CircularProgress } from "@mui/material";
-import { EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup, TransportPopup, VenuePopup, VenueRequirementPopup } from "./Popups";
+import { EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup, TransportPopup, VenuePopup, VenueRequirementPopup } from "../popups/popUps";
 
 const treeData = [
   {
@@ -129,11 +129,11 @@ const TreeStructure = () => {
       <div className="tree">
         {treeRendering(treeData, handleBoxClick, colorMap, changeborder, progressMap)}
         {renderPopup()}
-      </div>
       <div className="confirmsubmit">
         <button type="submit">Confirm</button>
         <button type="submit">Re-Request</button>
         <button type="submit">Go Back</button>
+      </div>
       </div>
     </>
   );

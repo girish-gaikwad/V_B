@@ -122,7 +122,7 @@ p {
   align-items: start;
   justify-content: start;
   max-width: calc(4 * 280px + 3 * 16px);
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 button {
