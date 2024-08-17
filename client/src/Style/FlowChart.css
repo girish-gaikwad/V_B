@@ -15,25 +15,35 @@
   top: 0;
   left: 0;
 }
+.tree {
+  /* border:  solid red; */
+  overflow: scroll; /* Enable scrolling */
+  scrollbar-width: none; /* For Firefox: hide scrollbar */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge: hide scrollbar */
+}
 
+/* For WebKit-based browsers (Chrome, Safari) */
+.tree::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
 .tree ul {
   padding-top: 12px;
-
-  position: relative; 
+  position: relative;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
 }
 
 .tree li {
-  float:left;
+  float: left;
   text-align: center;
   list-style-type: none;
   position: relative;
-  padding-top: 20px;
+  padding-top: 10px;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
+  margin: 0 15px 0 15px;
 }
 /* flow chart horizontal line */
 .tree li::before,
@@ -45,24 +55,21 @@
   right: 50%;
   border-top: 2px dotted #ccc;
   width: 50%;
-  height: 20px;
+  height: 10px;
   margin-top: 7px;
 }
 
 /* flow chart top-right line style */
 .tree li::after {
-  right: auto;
   left: 50%;
   border-left: 2px dotted #ccc;
-  margin-bottom: 10px;
 }
-
 
 /* flow chart top-left line style */
 .tree li:last-child::before {
   border-right: 2px dotted #ccc;
-  -webkit-border-radius: 0 5px 0 0;
-  -moz-border-radius: 0 5px 0 0;
+  border-radius: 0 5px 0 0;
+  width: 65%;
   padding: 1px;
 }
 /* flowchart bottom line */
@@ -73,15 +80,11 @@
   left: 50%;
   border-left: 2px dotted #ccc;
   width: 0;
-  height: 15px;
-  margin-top: 5px;
+  height: 17px;
 }
 
-
-
-
 .tree li:only-child {
-  padding-top: 0;
+  padding-top: 8px;
 }
 
 .tree li:first-child::before,
@@ -99,7 +102,7 @@
 .logoimage {
   width: 95px;
   height: 100px;
-  margin: 15px 35px 0px 35px;
+  margin: 10px 50px 0 50px;
   padding: 0;
   cursor: pointer;
   display: inline-block;
@@ -112,19 +115,32 @@
 }
 
 .formbox {
-  width: 90px;
+  width: 100px;
   height: 70px;
   border-radius: 11.05px;
 }
+.confirmsubmit {
+  width: 100%;
 
+  text-align: right;
+}
+.confirmsubmit button {
+  /* height: 35px; */
+  padding: 0px 10px;
+}
 .tree li div:hover + ul li::after,
 .tree li div:hover + ul li::before,
 .tree li div:hover + ul::before,
 .tree li div:hover + ul ul::before {
   border-color: black;
   border-width: 2px;
-
 }
 
-@media (max-width: 8px) {
+@media (max-width: 1250px) {
+  .tree ul {
+    overflow-x: hidden;
+  }
+  .tree li {
+    margin: 0;
+  }
 }

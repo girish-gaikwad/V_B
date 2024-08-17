@@ -4,6 +4,7 @@ import logo from "../img/image.png";
 import exe from "../img/exe.png";
 import person from "../img/person.png";
 import axios from "axios";
+import download from "../Assets/download.jpg";
 import "../Style/LiveEvent.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -112,16 +113,16 @@ function Home() {
     }
   }
 
-  const timeconverter = (datetime) => {
+  // const timeconverter = (datetime) => {
   
     
-    const [hours, minutes] = datetime.split(":");
-    const h = parseInt(hours, 10);
-    const period = h >= 12 ? "PM" : "AM";
-    const Hour = h % 12 || 12;
+  //   const [hours, minutes] = datetime.split(":");
+  //   const h = parseInt(hours, 10);
+  //   const period = h >= 12 ? "PM" : "AM";
+  //   const Hour = h % 12 || 12;
     
-    return `${Hour}:${minutes} ${period}`;
-  };
+  //   return `${Hour}:${minutes} ${period}`;
+  // };
   
 
   const formatDate = (isoString) => {
@@ -251,8 +252,7 @@ function Home() {
                       >
                         <AspectRatio ratio="2">
                           <img
-                            src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                            srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                            src={download} 
                             loading="lazy"
                             alt=""
                           />
@@ -290,10 +290,10 @@ function Home() {
                             <div className="right-data">
                               <h2>{event.event_code}</h2>
                               <h5>{event.event_name}</h5>
-                              <p>
+                              {/* <p>
                                 {timeconverter(event.start_at)} -{" "}
                                 {timeconverter(event.end_at)}
-                              </p>
+                              </p> */}
                             </div>
                           </div>
                         </div>
@@ -311,11 +311,9 @@ function Home() {
                 </div>
 
                 {showNewDiv && (
-                  <div className="flowchart">
                     <TreeStructure
                       onDialogStateChange={handleDialogStateChange}
                     />
-                  </div>
                 )}
               </div>
             </div>

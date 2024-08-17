@@ -5,41 +5,63 @@ import { Input } from "@chakra-ui/react";
 
 const EventPopup = ({ onClose, onSave }) => {
   const [formData, setFormData] = useState({
+    user_id: 1,
+    // event_code: "IT10000",
     event_name: "",
-    start_date: "",
-    end_date: "",
+    start_at: "",
+    end_at: "",
     event_type: "",
     assigned_to: "",
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+
   const handleSubmit = () => {
-    // axios
-    //   .post("http://localhost:8000/event-booking/event", { eventName })
-    //   .then((response) => {
-    //     console.log("Event saved:", response.data);
-    onSave(); // Trigger the color change
-    onClose();
-    // })
-    // .catch((error) => {
-    //   console.error("Error saving event:", error);
-    // });
+    // Convert the start_at and end_at to the desired format
+    const formattedStartDate = formData.start_at.replace("T", " ") + ":00";
+  const formattedEndDate = formData.end_at.replace("T", " ") + ":00";
+
+    // Update formData with the formatted dates
+    const FormattedFormData = {
+      ...formData,
+      start_at: formattedStartDate,
+      end_at: formattedEndDate,
+    };
+
+    axios
+      // .post("http://localhost:8000/post/eventform", FormattedFormData)
+      // .then((response) => {
+      //   console.log(FormattedFormData);
+      //   console.log("Event saved:", response.data);
+      //   // const id = response.data.event_id; // getting the insterted event_id from the backend.
+
+      //   alert("Event Data fetched to database table successfully\n event_id: ",id);
+        onSave(); // Trigger the color change
+        onClose();
+      // })
+      // .catch((error) => {
+      //   console.error("Error saving event:", error);
+      // });
   };
-  const eventtype = [
+
+  const eventTypes = [
     { id: 1, label: "Seminar" },
     { id: 2, label: "Webinar" },
     { id: 3, label: "Conference" },
     { id: 4, label: "College visit" },
     { id: 5, label: "Symposium" },
     { id: 6, label: "Meetings" },
-    { id: 7, label: "Guest Lectures" },
+    { id: 7, label: "Guest Lectures" },  
     { id: 8, label: "Others" },
   ];
+
   return (
     <div className="popup-overlay">
       <div
@@ -49,41 +71,47 @@ const EventPopup = ({ onClose, onSave }) => {
       >
         <h2>Register an Event</h2>
         <form className="event-form">
-          <label for="eventname">Name of the event</label>
+          <label htmlFor="event_name">Name of the event</label>
           <input
-            id="eventname"
+            id="event_name"
+            name="event_name"
             type="text"
-            // value={eventName}
+            value={formData.event_name}
             onChange={handleChange}
             placeholder="Event Name"
           />
           <div className="datebox">
-            <label for="start">Start</label>
+            <label htmlFor="start_at">Start</label>
             <Input
-              id="start"
-              placeholder="DD-MM-YYYY hh:mm AM/PM"
+              placeholder="Select Date and Time"
               size="md"
               type="datetime-local"
+              id="start_at"
+              name="start_at"
+              value={formData.start_at}
               onChange={handleChange}
             />
-            <label for="end">End</label>
+            <label htmlFor="end_at">End</label>
             <Input
-              id="end"
-              placeholder="DD-MM-YYYY hh:mm AM/PM"
+              placeholder="Select Date and Time"
               size="md"
               type="datetime-local"
+              id="end_at"
+              name="end_at"
+              value={formData.end_at}
               onChange={handleChange}
             />
           </div>
           <label>Type of Event</label>
           <div className="event-type">
-            {eventtype.map((event) => (
+            {eventTypes.map((event) => (
               <React.Fragment key={event.id}>
                 <input
                   type="radio"
                   id={event.id}
-                  name="eventtype"
-                  // value={event.label}
+                  name="event_type"
+                  value={event.label}
+                  checked={formData.event_type === event.label}
                   onChange={handleChange}
                 />
                 <label htmlFor={event.id}>{event.label}</label>
@@ -91,17 +119,17 @@ const EventPopup = ({ onClose, onSave }) => {
             ))}
           </div>
           <div>
-            <label for="assigned">Assigned To</label>
+            <label htmlFor="assigned_to">Assigned To</label>
             <input
-              id="assigned"
+              id="assigned_to"
+              name="assigned_to"
               type="text"
-              // value={eventName}
+              value={formData.assigned_to}
               onChange={handleChange}
               placeholder="Team Involved"
             />
           </div>
         </form>
-
         <div className="popup-buttons">
           <button onClick={handleSubmit}>Save</button>
           <button onClick={onClose}>Cancel</button>
@@ -110,6 +138,9 @@ const EventPopup = ({ onClose, onSave }) => {
     </div>
   );
 };
+
+
+export default EventPopup;
 
 const GuestPopup = ({ onClose, onSave }) => {
   const [eventName, setEventName] = useState("");

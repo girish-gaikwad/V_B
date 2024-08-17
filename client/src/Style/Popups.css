@@ -19,8 +19,6 @@
   z-index: 1000;
   width: 60%;
   height: 70%;
-  margin-left: 150px;
-  position: relative;;
 }
 
 .popup-content h2 {
@@ -28,9 +26,7 @@
 }
 
 .popup-buttons {
-  position:absolute;
-  bottom: 30px;
-  right: 15px;
+  text-align: right;
 }
 
 .popup-buttons button {
