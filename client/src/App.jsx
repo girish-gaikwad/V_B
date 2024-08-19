@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import LiveEvent from "./pages/liveevent/liveEvent";
+import LiveEvent from "./pages/liveevent/liveEvents";
 // import TreeStructure from "./pages/flowchart/FlowChart";
 
 function App() {
