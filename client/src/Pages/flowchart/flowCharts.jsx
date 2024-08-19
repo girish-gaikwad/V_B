@@ -9,7 +9,7 @@ import Accomodation from "../../assets/Accomodation.png";
 import Food from "../../assets/Food.png";
 import VenueRequirements from "../../assets/Venue Requirements.png";
 import { CircularProgress } from "@mui/material";
-import { EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup, TransportPopup, VenuePopup, VenueRequirementPopup } from "../popups/popUps";
+import { EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup, TransportPopup, VenuePopup, VenueRequirementPopup } from "../popups/popUp";
 
 const treeData = [
   {

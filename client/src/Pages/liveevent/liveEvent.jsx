@@ -12,7 +12,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { helix } from "ldrs";
-import TreeStructure from "../flowchart/flowChart";
+import TreeStructure from "../flowchart/flowCharts";
 
 function LiveEvent() {
   const [card, setCard] = useState(false);
