@@ -76,17 +76,43 @@ const TreeStructure = () => {
   const [progressMap, setProgressMap] = useState({ Invitees: 0 });
   const [changeborder, setborder] = useState({});
 
-  // changes by girish
 
-  // const [formData, setFormData] = useState({
-  //   user_id: 1,
-  //   event_code: "IT19999",
-  //   event_name: "",
-  //   start_at: "",
-  //   end_at: "",
-  //   event_type: "",
-  //   assigned_to: "",
-  // });
+  const [formData, setFormData] = useState({
+    user_id: 1,
+    event_code: "IT1002",
+    event_name: "",
+    start_at: "",
+    end_at: "",
+    event_type: "",
+    assigned_to: "",
+  });
+
+  const confirm =()=>{
+    const formattedStartDate = formData.start_at.replace("T", " ") + ":00";
+  const formattedEndDate = formData.end_at.replace("T", " ") + ":00";
+
+    // Update formData with the formatted dates
+    const FormattedFormData = {
+      ...formData,
+      start_at: formattedStartDate,
+      end_at: formattedEndDate,
+    };
+    console.log(FormattedFormData);
+    axios
+      .post("http://localhost:8000/post/eventform", FormattedFormData)
+      .then((response) => {
+        console.log(FormattedFormData);
+        console.log("Event saved:", response.data);
+        const id = response.data.event_id; // getting the insterted event_id from the backend.
+
+        alert("Event Data fetched to database table successfully\n event_id: ",id);
+        onSave(); // Trigger the color change
+        onClose();
+      })
+      .catch((error) => {
+        console.error("Error saving event:", error);
+      });
+  }
 
   const handleBoxClick = (item) => {
     if (item.id === "Event" || isEventCompleted || item.id === "Invitees") {
@@ -128,7 +154,7 @@ const TreeStructure = () => {
     };
     switch (selectedItem.popup) {
       case "EventPopup":
-        return <EventPopup {...popupProps} />;
+        return <EventPopup {...popupProps} formData={formData} setFormData={setFormData} />;
       case "GuestPopup":
         return <GuestPopup {...popupProps} />;
       case "AccomodationPopup":
@@ -157,11 +183,11 @@ const TreeStructure = () => {
           progressMap
         )}
         {renderPopup()}
-        <div className="confirmsubmit">
-          <button type="submit">Confirm</button>
-          <button type="submit">Re-Request</button>
-          <button type="submit">Go Back</button>
-        </div>
+      <div className="confirmsubmit">
+        <button type="submit" onClick={confirm}>Confirm</button>
+        <button type="submit">Re-Request</button>
+        <button type="submit">Go Back</button>
+      </div>
       </div>
     </>
   );

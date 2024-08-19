@@ -282,22 +282,21 @@ const EventPopup = ({ onClose, onSave }) => {
     };
 
     axios
-      .post("http://localhost:8000/post/eventform", FormattedFormData)
-      .then((response) => {
-        console.log(FormattedFormData);
-        console.log("Event saved:", response.data);
-        const id = response.data.event_id; // getting the insterted event_id from the backend.
+    //   .post("http://localhost:8000/post/eventform", FormattedFormData)
+    //   .then((response) => {
+    //     console.log(FormattedFormData);
+    //     console.log("Event saved:", response.data);
+    //     const id = response.data.event_id; // getting the insterted event_id from the backend.
 
         alert(
-          "Event Data fetched to database table successfully\n event_id: ",
-          id
+          "Event Data fetched to database table successfully\n event_id: "  
         );
         onSave(); // Trigger the color change
         onClose();
-      })
-      .catch((error) => {
-        console.error("Error saving event:", error);
-      });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error saving event:", error);
+    //   });
   };
 
   const eventTypes = [
