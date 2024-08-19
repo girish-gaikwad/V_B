@@ -26,6 +26,7 @@
 }
 
 .popup-buttons {
+ 
   text-align: right;
 }
 
@@ -87,4 +88,73 @@
 .event-type input[type="radio"]:checked + label {
   background: linear-gradient(#3690ea, #1976d2);
   color: white;
+}
+
+
+
+/* venue requirement css */
+.grid-container {
+ 
+  display: grid; 
+  grid-template-columns: repeat(7, 1fr); 
+  width: 100%;
+  height: 85%;
+}
+.flex{
+  display: flex;
+  height: 75%;
+  
+  justify-content: center;
+  align-items: center;
+}
+.itemschoosing{
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  height: 100%;
+}
+.circlex {
+  background-color: #f0f0f0;
+  padding: 20px;
+  height: 80px;
+  width:  80px;
+  border-radius: 50%;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.circlex.selected {
+  border: 2px solid #2B3674; Custom color for selected items
+}
+
+@media (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: repeat(6, 1fr); /* Adjust to 6 columns for smaller screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-container {
+    grid-template-columns: repeat(5, 1fr); /* Adjust to 5 columns for even smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: repeat(4, 1fr); /* Adjust to 4 columns for small screens */
+  }
+}
+.item-name{
+  padding-left: 15px;
+
+}
+@media (max-width: 400px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns for very small screens */
+  }
+}
+.circlex{
+
+   object-fit: contain;
 }

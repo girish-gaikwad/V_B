@@ -1,10 +1,12 @@
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
 import { useState, useEffect } from "react";
-import account from "../../assets/account_circle.png";
-import Eventlogo from "../../assets/EventLogo.png";
-import createventlogo from "../../assets/createventlogo.png";
-import person from "../../assets/person.png";
+import account from "../../Assets/account_circle.png";
+
+import createventlogo from "../../Assets/createventlogo.png";
+import person from "../../Assets/person.png";
 import axios from "axios";
-import download from "../../assets/download.jpg";
+import download from "../../Assets/download.jpg";
 import "./liveEvent.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -13,12 +15,11 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { helix } from "ldrs";
 import TreeStructure from "../flowchart/flowCharts";
+import SIDEBAR from "../sidebar/sidebar";
 
 function LiveEvent() {
   const [card, setCard] = useState(false);
   const [eventx, setEvents] = useState([]);
-  const [showNewDiv, setShowNewDiv] = useState(false);
-  const [showFlowChart, setShowFlowChart] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -64,65 +65,6 @@ function LiveEvent() {
       handleCardsView();
     }
   }, [eventx]);
-
-  function handelcreate() {
-    const elements = document.getElementsByClassName("change");
-
-    if (elements.length > 0) {
-      const element = elements[0];
-      element.style.height = "100%";
-    }
-
-    const buttonElement = document.getElementById("Cbutton");
-    const div = document.querySelector(".createbutton");
-
-    if (buttonElement && div) {
-      buttonElement.style.display = "none";
-      div.style.display = "none";
-    }
-
-    const imgtoremove = document.getElementById("personx");
-    const imgtocard = document.querySelector(".imgcontainer");
-
-    if (imgtoremove) {
-      imgtoremove.classList.add("fade-out");
-    }
-
-    if (imgtocard) {
-      imgtocard.classList.add("fade-out");
-    }
-
-    setTimeout(() => {
-      if (imgtoremove) {
-        imgtoremove.style.display = "none";
-      }
-      if (imgtocard) {
-        imgtocard.style.display = "none";
-      }
-      setShowNewDiv(true);
-      setShowFlowChart(true);
-    }, 500); // delay to allow fade-out animation
-  }
-
-  function handlePersonImageView() {
-    const imgtocard = document.querySelector(".imgcontainer");
-    if (imgtocard) {
-      imgtocard.classList.remove("grid"); // Remove grid class
-      imgtocard.classList.add("flex"); // Add flex class when person image is shown
-      imgtocard.classList.add("fade-in"); // Add fade-in class for animation
-    }
-  }
-
-  // const timeconverter = (datetime) => {
-
-  //   const [hours, minutes] = datetime.split(":");
-  //   const h = parseInt(hours, 10);
-  //   const period = h >= 12 ? "PM" : "AM";
-  //   const Hour = h % 12 || 12;
-
-  //   return `${Hour}:${minutes} ${period}`;
-  // };
-
   const formatDate = (isoString) => {
     const months = [
       "Jan",
@@ -191,21 +133,7 @@ function LiveEvent() {
   return (
     <>
       <div className="box">
-        <div className="sidebar">
-          <div className="websitename">
-            <div className="tags">
-              <img src={Eventlogo} alt="Website Logo" />
-              <p>Event</p>
-            </div>
-          </div>
-
-          <div className="currentpage">
-            <div className="tags">
-              <img src={createventlogo} alt="Create Event" />
-              <p>Create Event</p>
-            </div>
-          </div>
-        </div>
+        <SIDEBAR />
 
         <div className="rightwindow">
           <div className="wcover">
@@ -214,101 +142,106 @@ function LiveEvent() {
                 <img src={account} alt="Account" className="accimgx" />
               </div>
             </div>
+
             <div className="support">
               <div className={`change ${isDialogOpen ? "dialog-open" : ""}`}>
-                <div className="createbutton">
-                  <div>
-                    {card ? (
-                      <h3 className="titlename">Live events</h3>
-                    ) : (
-                      <h2></h2>
-                    )}
-                  </div>
-                  <button
-                    id="Cbutton"
-                    onClick={() => {
-                      handelcreate();
-                      handlePersonImageView(); // Call this to center the person image
-                    }}
-                  >
-                    Create +
-                  </button>
-                </div>
-
-                <div
-                  className={`imgcontainer ${
-                    card ? "grid fade-in" : "flex fade-in"
-                  }`}
-                >
-                  {card ? (
-                    eventx.map((event, index) => (
-                      <Card
-                        key={index}
-                        variant="outlined"
-                        sx={{ width: 280 }}
-                        className="individual-card"
-                      >
-                        <AspectRatio ratio="2">
-                          <img src={download} loading="lazy" alt="" />
-                        </AspectRatio>
-                        <div className="divider">
-                          <div className="data">
-                            <div className="left-data">
-                              <h2>{formatDate(event.start_at).month}</h2>
-                              <p>
-                                {formatDate(event.start_at).day} -{" "}
-                                {formatDate(event.end_at).day}
-                              </p>
-                              <h6
-                                className={
-                                  event.status === 1
-                                    ? "status1"
-                                    : event.status === 2
-                                    ? "status2"
-                                    : event.status === 3
-                                    ? "status3"
-                                    : ""
-                                }
-                              >
-                                {event.status === 1
-                                  ? "CREATED NOW"
-                                  : event.status === 2
-                                  ? "IN-PROGRESS"
-                                  : event.status === 3
-                                  ? "ASSIGNED "
-                                  : ""}
-                                &nbsp;
-                              </h6>
+                <Router>
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <>
+                          <div className="createbutton">
+                            <div>
+                              {card ? (
+                                <h3 className="titlename">Live events</h3>
+                              ) : (
+                                <h2></h2>
+                              )}
                             </div>
 
-                            <div className="right-data">
-                              <h2>{event.event_code}</h2>
-                              <h5>{event.event_name}</h5>
-                              {/* <p>
-                                {timeconverter(event.start_at)} -{" "}
-                                {timeconverter(event.end_at)}
-                              </p> */}
+                            <Link to={"/tree"}>
+                              <button id="Cbutton">Create +</button>
+                            </Link>
+                          </div>
+                          <div className="cardscover">
+                            <div
+                              className={`imgcontainer grid-container ${
+                                card ? "grid fade-in" : "flex fade-in"
+                              }`}
+                            >
+                              {card ? (
+                                eventx.map((event, index) => (
+                                  <Card
+                                    key={index}
+                                    variant="outlined"
+                                    sx={{ width: "100%", height: "100%" }}
+                                    className="individual-card"
+                                  >
+                                    <AspectRatio ratio="2.3">
+                                      <img
+                                        src={download}
+                                        loading="lazy"
+                                        alt=""
+                                      />
+                                    </AspectRatio>
+                                    <div className="divider">
+                                      <div className="data">
+                                        <div className="left-data">
+                                          <h2>
+                                            {formatDate(event.start_at).month}
+                                          </h2>
+                                          <p>
+                                            {formatDate(event.start_at).day} -{" "}
+                                            {formatDate(event.end_at).day}
+                                          </p>
+                                          <h6
+                                            className={
+                                              event.status === 1
+                                                ? "status1"
+                                                : event.status === 2
+                                                ? "status2"
+                                                : event.status === 3
+                                                ? "status3"
+                                                : ""
+                                            }
+                                          >
+                                            {event.status === 1
+                                              ? "CREATED NOW"
+                                              : event.status === 2
+                                              ? "IN-PROGRESS"
+                                              : event.status === 3
+                                              ? "ASSIGNED "
+                                              : ""}
+                                            &nbsp;
+                                          </h6>
+                                        </div>
+
+                                        <div className="right-data">
+                                          <h2>{event.event_code}</h2>
+                                          <h5>{event.event_name}</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <Divider />
+                                  </Card>
+                                ))
+                              ) : (
+                                <img
+                                  // onClick={handelcreate}
+                                  src={person}
+                                  alt="Person"
+                                  id="personx"
+                                />
+                              )}
                             </div>
                           </div>
-                        </div>
-                        <Divider />
-                      </Card>
-                    ))
-                  ) : (
-                    <img
-                      onClick={handelcreate}
-                      src={person}
-                      alt="Person"
-                      id="personx"
+                        </>
+                      }
                     />
-                  )}
-                </div>
-
-                {showNewDiv && (
-                  <TreeStructure
-                    onDialogStateChange={handleDialogStateChange}
-                  />
-                )}
+                    <Route path="/tree" element={<TreeStructure />} />
+                  </Routes>
+                </Router>
               </div>
             </div>
           </div>

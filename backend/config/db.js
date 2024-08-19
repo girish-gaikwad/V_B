@@ -6,7 +6,7 @@ dotenv.config();
 const db = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
+  password: process.env.DB_PASSWORD || "2055",
   database: process.env.DB_DATABASE || "event_booking",
   connectTimeout: 10000, // 10 seconds
   acquireTimeout: 10000, // 10 seconds

@@ -1,5 +1,9 @@
-body {
-  color: #2b3674;
+
+.box {
+  width: 100vw;
+  height: 100vh;
+  background-color: gray;
+  display: flex;
 }
 
 .imgcontainer.flex {
@@ -10,24 +14,9 @@ body {
   height: 100%;
 }
 
-.showFlowChart {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
 
-.showFlowChart.visible {
-  opacity: 1;
-}
 
-.createbutton,
-.imgcontainer {
-  transition: opacity 1s ease, height 1s ease-in-out, width 5s ease-in-out;
-}
 
-.card-container {
-  background-color: antiquewhite;
-  width: 80%;
-}
 
 * {
   border: 0;
@@ -45,18 +34,11 @@ p {
   align-items: center;
 }
 
-.box {
-  width: 100vw;
-  height: 100vh;
-  background-color: gray;
-  display: flex;
-}
 
 .sidebar {
   width: 15%;
   height: 100vh;
-  background-color: #fdfdfd;
-  position: absolute;
+  background-color: #fdfdfd;  
   box-shadow: 0.1em 0.1em 1em rgba(147, 145, 145, 0.8);
 }
 
@@ -78,7 +60,7 @@ p {
 }
 
 .rightwindow {
-  margin-left: 15%;
+  border: solid red;
   width: 85%;
   height: 100vh;
   background-color: #ffffff;
@@ -90,6 +72,7 @@ p {
 .wcover {
   width: 98%;
   height: 96%;
+  /* border: solid green; */
   background-color: #f6f6f6;
   display: flex;
   flex-direction: column;
@@ -114,15 +97,23 @@ p {
   padding-right: 10px;
   padding-top: 5px;
 }
-
+/* Base styles for large screens */
 .imgcontainer.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 5px 10px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-gap: 5px;
+  gap: 20px;
+  max-height: 445px;
   align-items: start;
-  justify-content: start;
-  max-width: calc(4 * 280px + 3 * 16px);
-  overflow: scroll;
+  justify-content: end; /* Aligns items to the right side */
+}
+
+/* Medium screens (e.g., tablets) */
+@media (max-width: 1200px) {
+  .imgcontainer.grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Adjust for medium screens */
+    max-height: 0px; /* Adjust max-height if needed */
+  }
 }
 
 button {
@@ -149,6 +140,7 @@ button {
 }
 
 .change {
+  border: solid red;
   width: 100%;
   height: 62%;
   background-color: #ffffff;
@@ -177,15 +169,19 @@ button {
   justify-content: space-between;
   align-items: center;
 }
-
+.cardscover{
+  border: solid rgb(0, 255, 242);
+width: 100%;
+height: 100%;
+}
 .imgcontainer {
-  padding-top: 15px;
+  border: solid green;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   transition: height 0.5s ease-in-out;
-  width: 98%;
-  height: 82%;
+  width: 100%; 
+  /* height: 82%; */
   align-items: center;
   justify-content: space-around;
 }
@@ -334,42 +330,5 @@ button {
   display: flex;
 }
 
-.flowchart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 20px;
-  padding-right: 20px;
-  width: 100%;
-  height: 100%;
-}
 
-/* FlowChart.css */
-.flow-chart {
-  position: relative;
-}
 
-.dialog-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.dialog-paper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.box-container {
-  position: relative;
-  width: 90%;
-  height: 90%;
-  background-color: #fff;
-}

@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import "./flowChart.css";
-import Event from "../../assets/Event.png";
-import Guest from "../../assets/Guest.png";
-import Participants from "../../assets/Participants.png";
-import Venue from "../../assets/Venue.png";
-import Transport from "../../assets/Transport.png";
-import Accomodation from "../../assets/Accomodation.png";
-import Food from "../../assets/Food.png";
-import VenueRequirements from "../../assets/Venue Requirements.png";
+import Event from "../../Assets/Event.png";
+import Guest from "../../Assets/Guest.png";
+import Participants from "../../Assets/Participants.png";
+import Venue from "../../Assets/Venue.png";
+import Transport from "../../Assets/Transport.png";
+import Accomodation from "../../Assets/Accomodation.png";
+import Food from "../../Assets/Food.png";
+import VenueRequirements from "../../Assets/Venue Requirements.png";
 import { CircularProgress } from "@mui/material";
-import { EventPopup, GuestPopup, ParticipantsPopup, AccomodationPopup, TransportPopup, VenuePopup, VenueRequirementPopup } from "../popups/popUp";
+import {
+  EventPopup,
+  GuestPopup,
+  ParticipantsPopup,
+  AccomodationPopup,
+  TransportPopup,
+  VenuePopup,
+  VenueRequirementPopup,
+} from "../popups/popUp";
 
 const treeData = [
   {
@@ -68,10 +76,7 @@ const TreeStructure = () => {
   const [progressMap, setProgressMap] = useState({ Invitees: 0 });
   const [changeborder, setborder] = useState({});
 
-
-
-  // changes by girish 
-
+  // changes by girish
 
   // const [formData, setFormData] = useState({
   //   user_id: 1,
@@ -104,7 +109,9 @@ const TreeStructure = () => {
 
     // Increment progress based on which item was selected
     if (
-      ["Guest", "Participants", "Accomodation", "Transport"].includes(selectedItem.id)
+      ["Guest", "Participants", "Accomodation", "Transport"].includes(
+        selectedItem.id
+      )
     ) {
       setProgressMap((prev) => ({
         ...prev,
@@ -142,19 +149,31 @@ const TreeStructure = () => {
   return (
     <>
       <div className="tree">
-        {treeRendering(treeData, handleBoxClick, colorMap, changeborder, progressMap)}
+        {treeRendering(
+          treeData,
+          handleBoxClick,
+          colorMap,
+          changeborder,
+          progressMap
+        )}
         {renderPopup()}
-      <div className="confirmsubmit">
-        <button type="submit">Confirm</button>
-        <button type="submit">Re-Request</button>
-        <button type="submit">Go Back</button>
-      </div>
+        <div className="confirmsubmit">
+          <button type="submit">Confirm</button>
+          <button type="submit">Re-Request</button>
+          <button type="submit">Go Back</button>
+        </div>
       </div>
     </>
   );
 };
 
-const treeRendering = (treeData, handleBoxClick, colorMap, changeborder, progressMap) => {
+const treeRendering = (
+  treeData,
+  handleBoxClick,
+  colorMap,
+  changeborder,
+  progressMap
+) => {
   return (
     <>
       <ul>
@@ -164,27 +183,67 @@ const treeRendering = (treeData, handleBoxClick, colorMap, changeborder, progres
               <div
                 className="formbox"
                 style={{
-                  border: item.id !== "Invitees" ? changeborder[item.id] || "2.5px solid #f77575" : "none",
-                  backgroundColor: item.id !== "Invitees" ? colorMap[item.id] || "#fe6f6f45" : "transparent",
-                  cursor: item.id !== "Event" && !colorMap["Event"] && item.id !== "Invitees" ? "not-allowed" : "pointer"&&item.id === "Invitees" ? "context-menu":"",
-                  position: "relative", // For positioning the CircularProgress
+                  border:
+                    item.id !== "Invitees"
+                      ? changeborder[item.id] || "2.5px solid #f77575"
+                      : "none",
+                  backgroundColor:
+                    item.id !== "Invitees"
+                      ? colorMap[item.id] || "#fe6f6f45"
+                      : "transparent",
+                  cursor:
+                    item.id !== "Event" &&
+                    !colorMap["Event"] &&
+                    item.id !== "Invitees"
+                      ? "not-allowed"
+                      : "pointer" && item.id === "Invitees"
+                      ? "context-menu"
+                      : "",
+                  position: "relative",
+                  // For positioning the CircularProgress
                 }}
               >
                 {item.id === "Invitees" && (
                   <CircularProgress
-                  variant="determinate"
-                  value={progressMap.Invitees}
-                  size="105px"
-                  thickness={2}
-                  className="redProgress"
-                  style={{ position: "absolute", top: -2, left: -2, zIndex: 1 }}
-                />
+                    variant="determinate"
+                    value={progressMap.Invitees}
+                    size="80px"
+                    thickness={2}
+                    className="redProgress"
+                    style={{ position: "absolute", top: 2, left: 8, zIndex: 1 }}
+                  />
                 )}
-                <img src={item.image} alt={item.id} style={{ zIndex: 2, position: "relative" }} />
-              <h6 className="flowname">{item.id}</h6>
+                <img
+                  src={item.image}
+                  alt={item.id}
+                  style={{
+                    // zIndex: 2,
+                    position: "relative",
+                    width: item.id === "Invitees" ? "70px" : "", // Reduce size only for Invitees
+                    top: item.id === "Invitees" ? "10px" : "", // Reduce size only for Invitees
+                    height: item.id === "Invitees" ? "auto" : "", // Adjust height to maintain aspect ratio
+                  }}
+                />
+                <h6
+                  className="flowname"
+                  style={{
+                    position: "relative",
+                    top: item.id === "Invitees" ? "15px" : "", // Reduce
+                  }}
+                >
+                  {item.id}
+                </h6>
               </div>
             </div>
-            {item.children && item.children.length ? treeRendering(item.children, handleBoxClick, colorMap, changeborder, progressMap) : null}
+            {item.children && item.children.length
+              ? treeRendering(
+                  item.children,
+                  handleBoxClick,
+                  colorMap,
+                  changeborder,
+                  progressMap
+                )
+              : null}
           </li>
         ))}
       </ul>
