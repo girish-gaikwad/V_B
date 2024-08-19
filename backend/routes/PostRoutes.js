@@ -10,5 +10,8 @@ router.post('/guestaccommodation', PostController.GuestAccommodationForm);
 router.post('/guesttransport', PostController.GuestTransportForm);
 router.post('/venueregister', PostController.VenueRegister);
 router.post('/venuerequirement', PostController.VenueRequirement);
+router.post('/invitees', PostController.invitees);
+router.post('/combine_accommodation', PostController.combine_accommodation);
+router.post('/combine_transport', PostController.combine_transport);
 
 module.exports = router;

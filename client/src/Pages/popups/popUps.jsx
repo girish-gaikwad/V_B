@@ -3,10 +3,11 @@ import axios from "axios";
 import "./popUps.css";
 import { Input } from "@chakra-ui/react";
 
-const EventPopup = ({ onClose, onSave }) => {
+const EventPopup = ({ onClose, onSave } ) => {
+  
   const [formData, setFormData] = useState({
     user_id: 1,
-    // event_code: "IT10000",
+    event_code: "IT1002",
     event_name: "",
     start_at: "",
     end_at: "",
@@ -14,6 +15,7 @@ const EventPopup = ({ onClose, onSave }) => {
     assigned_to: "",
   });
 
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -36,19 +38,19 @@ const EventPopup = ({ onClose, onSave }) => {
     };
 
     axios
-      // .post("http://localhost:8000/post/eventform", FormattedFormData)
-      // .then((response) => {
-      //   console.log(FormattedFormData);
-      //   console.log("Event saved:", response.data);
-      //   // const id = response.data.event_id; // getting the insterted event_id from the backend.
+      .post("http://localhost:8000/post/eventform", FormattedFormData)
+      .then((response) => {
+        console.log(FormattedFormData);
+        console.log("Event saved:", response.data);
+        const id = response.data.event_id; // getting the insterted event_id from the backend.
 
-      //   alert("Event Data fetched to database table successfully\n event_id: ",id);
+        alert("Event Data fetched to database table successfully\n event_id: ",id);
         onSave(); // Trigger the color change
         onClose();
-      // })
-      // .catch((error) => {
-      //   console.error("Error saving event:", error);
-      // });
+      })
+      .catch((error) => {
+        console.error("Error saving event:", error);
+      });
   };
 
   const eventTypes = [

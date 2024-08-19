@@ -68,6 +68,21 @@ const TreeStructure = () => {
   const [progressMap, setProgressMap] = useState({ Invitees: 0 });
   const [changeborder, setborder] = useState({});
 
+
+
+  // changes by girish 
+
+
+  // const [formData, setFormData] = useState({
+  //   user_id: 1,
+  //   event_code: "IT19999",
+  //   event_name: "",
+  //   start_at: "",
+  //   end_at: "",
+  //   event_type: "",
+  //   assigned_to: "",
+  // });
+
   const handleBoxClick = (item) => {
     if (item.id === "Event" || isEventCompleted || item.id === "Invitees") {
       setSelectedItem(item);
@@ -157,16 +172,17 @@ const treeRendering = (treeData, handleBoxClick, colorMap, changeborder, progres
               >
                 {item.id === "Invitees" && (
                   <CircularProgress
-                    variant="determinate"
-                    value={progressMap.Invitees}
-                    size="100px"
-                    thickness={2.5}
-                    style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
-                  />
+                  variant="determinate"
+                  value={progressMap.Invitees}
+                  size="105px"
+                  thickness={2}
+                  className="redProgress"
+                  style={{ position: "absolute", top: -2, left: -2, zIndex: 1 }}
+                />
                 )}
                 <img src={item.image} alt={item.id} style={{ zIndex: 2, position: "relative" }} />
-              </div>
               <h6 className="flowname">{item.id}</h6>
+              </div>
             </div>
             {item.children && item.children.length ? treeRendering(item.children, handleBoxClick, colorMap, changeborder, progressMap) : null}
           </li>

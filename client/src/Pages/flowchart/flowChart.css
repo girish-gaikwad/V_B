@@ -74,13 +74,15 @@
 }
 /* flowchart bottom line */
 .tree ul ul::before {
+  /* border: solid red; */
   content: "";
   position: absolute;
   top: 0;
   left: 50%;
   border-left: 2px dotted #ccc;
   width: 0;
-  height: 17px;
+  height: 15px;
+  margin-top: 5px;
 }
 
 .tree li:only-child {
@@ -135,7 +137,9 @@
   border-color: black;
   border-width: 2px;
 }
-
+.redProgress .MuiCircularProgress-circle {
+  color: #fa6666 !important;
+}
 @media (max-width: 1250px) {
   .tree ul {
     overflow-x: hidden;
