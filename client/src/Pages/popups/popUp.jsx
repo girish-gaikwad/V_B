@@ -4,7 +4,10 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import "./popUps.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Input } from "@chakra-ui/react";
+import { Center, Input } from "@chakra-ui/react";
+import { BsFillPeopleFill } from "react-icons/bs";
+import { IoIosArrowBack,IoIosArrowForward } from "react-icons/io";
+
 import {
   Slider,
   Button,
@@ -14,6 +17,14 @@ import {
   TextField,
   FormControlLabel,
   IconButton,
+  Chip,
+  ToggleButtonGroup,
+  ToggleButton,
+  InputLabel,
+  Select,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
 
 import {
@@ -27,13 +38,28 @@ import {
   InputAdornment,
   MenuItem,
   DialogActions,
+  styled,
+  Stepper,
+  Step,
+  StepLabel,
+  Paper,
 } from "@mui/material";
-import { useSwipeable } from "react-swipeable";
-import { styled } from "@mui/system";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { IoPersonAddOutline } from "react-icons/io5";
+import { IoPerson, IoPersonAddOutline } from "react-icons/io5";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import {
+  ArrowBack,
+  ArrowForward,
+  CalendarToday,
+  GroupAdd,
+  GroupRemove,
+  LocationOn,
+  PersonAdd,
+  PersonOutline,
+  Undo,
+} from "@mui/icons-material";
 
 const CardStack = styled("div")({
   display: "flex",
@@ -48,7 +74,7 @@ const CardStack = styled("div")({
   },
 });
 
-const ListItem = ({
+const ListItem = React.memo(({
   item,
   onPrev,
   onNext,
@@ -248,6 +274,1325 @@ const ListItem = ({
       </Box>
     </Card>
   );
+});
+
+const findPair = (number, pairs) => {
+  for (const pair of pairs) {
+    if (pair.includes(number)) {
+      const index = pair.indexOf(number);
+      const pairedNumber = pair[1 - index];
+      if (number == pair[1]) {
+        return pair[0];
+      } else {
+        return pair[1];
+      }
+    }
+  }
+  // console.log(`Number ${number} is not in any pair.`);
+};
+// const findGroupMembers = (number, pairs) => {
+//   for (const group of pairs) {
+//     if (group.includes(number)) {
+//       // Filter out the given number from the group
+//       return group.filter((id) => id !== number);
+//     }
+//   }
+//   // console.log(`Number ${number} is not in any group.`);
+//   return []; // Return an empty array if the number is not found
+// };
+const findGroupMembers = (number, pairs) => {
+  for (const group of pairs) {
+    if (group.includes(number)) {
+      // Return the group excluding the specified number
+      return group.filter((id) => id !== number);
+    }
+  }
+  return []; // Return an empty array if the number is not found in any group
+};
+
+
+
+const ListItemA = React.memo(({
+  cardno,
+  item,
+  onPrev,
+  onNext,
+  onInputChange,
+  handleClose,
+  groups,
+  initialGuests,
+}) => {
+  const pairedman = findPair(cardno + 1, groups);
+  // console.log(groups)
+  return (
+    <Card
+      sx={{
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        // paddingTop: "50px",
+        // maxWidth: "800px",
+        height: "370px",
+        boxShadow: 3,
+        borderRadius: 2,
+        // border: "solid black",
+      }}
+    >
+
+<div style={{display:"flex",justifyContent:"end",alignItems:"center",}}>
+
+<div className="options" style={{marginRight:"5px",marginTop:"5px"}}>
+
+      {cardno + 1}
+</div>
+
+{pairedman && (
+  <div className="options" style={{ marginRight: "5px", marginTop: "5px" }}>
+    {pairedman}
+  </div>
+)}
+</div>
+
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={12}>
+          <FormLabel>Arrival Time</FormLabel>
+
+          <TextField
+            style={{ width: "100%" }}
+            // label="Select Date"
+            type="date"
+            value={item.arrivaltime}
+            onChange={(e) => onInputChange("arrivaltime", e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={12}>
+          <FormLabel>Arrival Time</FormLabel>
+
+          <TextField
+            style={{ width: "100%" }}
+            // label="Select Date"
+            type="date"
+            value={item.arrivaltime}
+            onChange={(e) => onInputChange("arrivaltime", e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={12}>
+          <FormControl fullWidth>
+            <FormLabel>Accomodaton venue</FormLabel>
+            <TextField
+              select
+              variant="outlined"
+              value={item.accomodationvenue}
+              onChange={(e) =>
+                onInputChange("accomodationvenue", e.target.value)
+              }
+            >
+              <MenuItem value="Guest House">guest House</MenuItem>
+              <MenuItem value="hostel">hostel</MenuItem>
+              <MenuItem value="room">room</MenuItem>
+            </TextField>
+          </FormControl>
+        </Grid>
+      </Grid>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+        }}
+      >
+        <DialogActions>
+          <div className="cardsarrow" onClick={onPrev}>
+          <IoIosArrowBack />
+          </div>
+        
+          <Button style={{height:"35px", color:"white"}} >save</Button>
+
+          <div className="cardsarrow" onClick={onNext}>
+            <IoIosArrowForward  />
+          </div>
+
+        </DialogActions>
+      </Box>
+    </Card>
+  );
+});
+const ListItemT = React.memo(({
+  cardno,
+  item,
+  onPrev,
+  onNext,
+  onInputChange,
+  handleClose,
+  groups,
+  initialGuests,
+  // isRightEnabled,
+  // isLeftEnabled
+}) => {
+  const [tripType, setTripType] = useState("Both");
+
+  const handleTripTypeChange = (event, newTripType) => {
+    if (newTripType !== null) {
+      setTripType(newTripType);
+    }
+  };
+  const isLeftEnabled = tripType === "Both" || tripType === "Onward";
+  const isRightEnabled = tripType === "Both" || tripType === "Return";
+  const pairedman = findGroupMembers(cardno + 1, groups);
+  // console.log(tripType)
+  return (
+    <Card
+      sx={{
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        // paddingTop: "50px",
+        // maxWidth: "800px",
+        height: "350px",
+        boxShadow: 3,
+        borderRadius: 2,
+        // border: "solid black",
+      }}
+    >
+      <div style={{display:"flex",justifyContent:"end",alignItems:"center",}}>
+
+<div className="options" style={{marginRight:"5px",marginTop:"5px"}}>
+
+      {cardno + 1}
+</div>
+
+  {pairedman.map((memberId, index) => (
+        <div key={index} className="options" style={{ marginRight: '5px', marginTop: '5px' }}>
+          {memberId}
+        </div>
+      ))}
+   
+</div> 
+
+      
+
+      <div style={{display:"flex" ,width:"100%",}}>
+
+        <div style={{width:"60%",marginRight:"5px"}}>
+          <ToggleButtonGroup
+            value={tripType}
+            exclusive
+            onChange={handleTripTypeChange}
+            aria-label="trip type"
+            style={{ marginBottom: "20px" }}
+            fullWidth
+          >
+            <ToggleButton value="Both">Both</ToggleButton>
+            <ToggleButton value="Onward">Onward</ToggleButton>
+            <ToggleButton value="Return">Return</ToggleButton>
+
+            
+          </ToggleButtonGroup>
+        </div>
+
+
+
+        
+
+        <div style={{width:"20%"}}>
+          <FormControl fullWidth>
+            <InputLabel   id="car-select-label">Eg: Bolero</InputLabel>
+            <Select 
+              labelId="car-select-label"
+              id="car-select" 
+              sx={{ height: 42 }}
+              //  value={carType}
+              //  onChange={handleCarTypeChange}
+              // disabled={tripType !== 'Return'}
+            >
+              <MenuItem value="Bolero">Bolero</MenuItem>
+              <MenuItem value="Innova">Innova</MenuItem>
+              <MenuItem value="Swift">Swift</MenuItem>
+              <MenuItem value="Scorpio">Scorpio</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+      </div>
+
+      <Grid container spacing={2} alignItems="center">
+        {/* Left Side Input Fields */}
+        <Grid item xs={6}>
+          <TextField
+            label="Date and Time"
+            type="datetime-local"
+            fullWidth
+            disabled={!isLeftEnabled}
+            InputLabelProps={{
+              shrink: true,
+            }}
+              // InputProps={{
+              //   startAdornment: (
+              //     <IconButton>
+              //       <CalendarToday />
+              //     </IconButton>
+              //   ),
+              // }}
+          />
+          <TextField
+            label="Location"
+            fullWidth
+            disabled={!isLeftEnabled}
+            // InputProps={{
+            //   startAdornment: (
+            //     <IconButton>
+            //       <LocationOn />
+            //     </IconButton>
+            //   ),
+            // }}
+            style={{ marginTop: "10px" }}
+          />
+          <TextField
+            label="Location"
+            fullWidth
+            disabled={!isLeftEnabled}
+            // InputProps={{
+            //   startAdornment: (
+            //     <IconButton>
+            //       <LocationOn />
+            //     </IconButton>
+            //   ),
+            // }}
+            style={{ marginTop: "10px" }}
+          />
+        </Grid>
+
+        {/* Right Side Input Fields */}
+        <Grid item xs={6}>
+          <TextField
+            label="Date and Time"
+            type="datetime-local"
+            fullWidth
+            disabled={!isRightEnabled}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            // InputProps={{
+            //   startAdornment: (
+            //     <IconButton>
+            //       <CalendarToday />
+            //     </IconButton>
+            //   ),
+            // }}
+          />
+          <TextField
+            label="Location"
+            fullWidth
+            disabled={!isRightEnabled}
+            // InputProps={{
+            //   endAdornment: (
+            //     <IconButton>
+            //       <LocationOn />
+            //     </IconButton>
+            //   ),
+            // }}
+            style={{ marginTop: "10px" }}
+          />
+          <TextField
+            label="Location"
+            fullWidth
+            
+            disabled={!isRightEnabled}
+            // InputProps={{
+            //   startAdornment: (
+            //     <IconButton>
+            //       <LocationOn />
+            //     </IconButton>
+            //   ),
+            // }}
+            style={{ marginTop: "10px" }}
+          />
+        </Grid>
+      </Grid>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+        }}
+      >
+        <DialogActions>
+          <div className="cardsarrow" onClick={onPrev}>
+          <IoIosArrowBack />
+          </div>
+        
+          <Button style={{height:"35px", color:"white"}} >save</Button>
+
+          <div className="cardsarrow" onClick={onNext}>
+            <IoIosArrowForward  />
+          </div>
+
+        </DialogActions>
+      </Box>
+    </Card>
+  );
+});
+const maxVisibleSteps = 3;
+
+const AccomodationPopup = ({ onClose, onSave }) => {
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      salutation: "Mr",
+      firstName: "girish",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+    {
+      id: 2,
+      salutation: "Mr",
+      firstName: "giridhar",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+    {
+      id: 3,
+      salutation: "Mr",
+      firstName: "dharnish",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+    {
+      id: 4,
+      salutation: "Mr",
+      firstName: "thaya",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+  ]);
+  const initialGuests = [...cards];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
+  };
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
+    );
+  };
+  const handleInputChange = (id, field, value) => {
+    // console.log("yep iwam ");
+    const initialGuests = cards.map((card) =>
+      card.id === id ? { ...card, [field]: value } : card
+    );
+    setCards(initialGuests);
+  };
+  
+  ////////////////
+
+  const [guestData, setGuestData] = useState(initialGuests);
+  const [groups, setGroups] = useState([]);
+  const [aloneGuests, setAloneGuests] = useState([]);
+  const [lastAction, setLastAction] = useState(null);
+  const [selectedGuest, setSelectedGuest] = useState(null);
+  const [startStep, setStartStep] = useState(0);
+
+  const handlePairing = (guestId, pairedGuestId) => {
+    const newGroup = [guestId, pairedGuestId];
+    setGroups([...groups, newGroup]);
+    setGuestData((prevGuestData) =>
+      prevGuestData.filter((g) => !newGroup.includes(g.id))
+    );
+    setLastAction({ type: "pair", group: newGroup });
+    setSelectedGuest(null);
+  };
+
+  const handleUndoAlone = (guestId) => {
+    setAloneGuests(aloneGuests.filter((id) => id !== guestId));
+    setGuestData((prevGuestData) => [
+      ...prevGuestData,
+      {
+        id: guestId,
+        name: initialGuests.find((g) => g.id === guestId).firstName,
+      },
+    ]);
+    setLastAction(null);
+  };
+
+  const handleStayAlone = (guestId) => {
+    setAloneGuests([...aloneGuests, guestId]);
+    setGuestData((prevGuestData) =>
+      prevGuestData.filter((g) => g.id !== guestId)
+    );
+    setLastAction({ type: "alone", guestId });
+    setSelectedGuest(null);
+  };
+
+  const handleSelectGuestForPairing = (guestId) => {
+    setSelectedGuest(guestId === selectedGuest ? null : guestId);
+  };
+
+  const unpairGroup = (group) => {
+    setGroups(groups.filter((g) => g !== group));
+    setGuestData((prevGuestData) => [
+      ...prevGuestData,
+      {
+        id: group[0],
+        name: initialGuests.find((g) => g.id === group[0]).firstName,
+      },
+      {
+        id: group[1],
+        name: initialGuests.find((g) => g.id === group[1]).firstName,
+      },
+    ]);
+    setAloneGuests(
+      aloneGuests.filter((id) => id !== group[0] && id !== group[1])
+    );
+  };
+
+  const getUnpairableGroup = (guestId) => {
+    return groups.find((group) => group.includes(guestId)) || [];
+  };
+
+  const handleNextx = () => {
+    setStartStep((prev) =>
+      prev + 1 >= initialGuests.length - (maxVisibleSteps - 1) ? prev : prev + 1
+    );
+  };
+
+  const handleBack = () => {
+    setStartStep((prev) => (prev - 1 < 0 ? 0 : prev - 1));
+  };
+
+  const handleSubmit = () => {
+    // axios
+    //   .post("http://localhost:8000/event-booking/event", { eventName })
+    //   .then((response) => {
+    //     console.log("Event saved:", response.data);
+    onSave(); // Trigger the color change
+    onClose();
+    // })
+    // .catch((error) => {
+    //   console.error("Error saving event:", error);
+    // });
+  };
+
+  return (
+    <div className="popup-overlay">
+      <div className="popup-content accomodation" onClick={(e) => e.stopPropagation()}>
+        {/* <div
+          style={{
+            border: "solid green",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        > */}
+          <Box  sx={{ width: "100%" }}>
+            <Box  
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                // alignItems:"center",
+                marginBottom: "20px",
+                height:"180px"
+              }}
+            >
+              <div className="arrow" onClick={handleBack} disabled={startStep === 0}>
+                
+                <img src="/images/icons_images/arrow_right.png" className="iconarrow" alt="" />
+                
+              </div>
+
+
+              <Stepper 
+                alternativeLabel
+                nonLinear
+                activeStep={-1}
+                sx={{ flex: 1 }}
+                // className="sus"
+              >
+                {cards
+                  .slice(startStep, startStep + maxVisibleSteps)
+                  .map((guest, index) => (
+
+                    <Step className="sus" key={guest.id}>
+
+
+                      <StepLabel 
+                        StepIconComponent={() => (
+                          <div className="ctd">{startStep + index + 1}</div>
+                        )}
+                      >
+                        
+                        <div className="guestNames">
+                          <img className="guestImage" src="images/icons_images/bordername.png" alt="" />
+                        
+                        <p className="guestname">
+                        {guest.salutation} . {guest.firstName}
+                        </p>
+                        </div>
+                    
+                        {getUnpairableGroup(guest.id).length > 0 && (
+                          
+                            <div
+                              className="undoalone"
+                              onClick={() =>
+                                unpairGroup(getUnpairableGroup(guest.id))
+                              }
+                              >
+                              <Undo />
+                              Unpair
+                              <BsFillPeopleFill /> 
+                            </div>
+                        
+                        )}
+
+
+                        {aloneGuests.includes(guest.id) && (
+                        
+                            <div
+                            className="undoalone"
+                              onClick={() => handleUndoAlone(guest.id)}
+                            >
+                              <Undo /> 
+                              undo
+                              <IoPerson />
+                            </div>
+                        
+                        )}
+
+
+                      </StepLabel>
+                      <Box
+                      
+                        sx={{
+    
+    
+                          textAlign: "center",
+                        
+                        }}
+                      >
+                       
+
+                        {guestData.some((g) => g.id === guest.id) && (
+                          <>
+                            <Grid container spacing={1} justifyContent="center">
+                              <Grid item>
+
+
+                                <div className="pair"
+                                 
+                                  onClick={() =>
+                                    handleSelectGuestForPairing(guest.id)
+                                  }
+                                  sx={{
+                                    backgroundColor:
+                                      selectedGuest === guest.id
+                                        ? "lightblue"
+                                        : "transparent",
+                                    borderColor:
+                                      selectedGuest === guest.id
+                                        ? "blue"
+                                        : "grey",
+                                    color:
+                                      selectedGuest === guest.id
+                                        ? "blue"
+                                        : "black",
+                                    "&:hover": {
+                                      backgroundColor:
+                                        selectedGuest === guest.id
+                                          ? "lightblue"
+                                          : "transparent",
+                                    },
+                                  }}
+                                >
+                                 <BsFillPeopleFill /> 
+                                </div>
+
+                                
+                              </Grid>
+
+                              <Grid item>
+                                <div className="alone"
+                                  variant="outlined"
+                                  size="small"
+                                  color="warning"
+                                  startIcon={<PersonOutline />}
+                                  onClick={() => handleStayAlone(guest.id)}
+                                >
+                                  <IoPerson />
+                                </div>
+                              </Grid>
+                            </Grid>
+
+                            {selectedGuest === guest.id && (  
+                              <Box sx={{ marginTop: "10px" }}>
+                               
+
+
+                                <Grid
+                                  container
+                                  spacing={1}
+                                  justifyContent="center"
+                                  // className="sus"
+                                >
+
+
+
+                                  {guestData
+                                    .filter(
+                                      (otherGuest) => otherGuest.id !== guest.id
+                                    )
+                                    .map((otherGuest) => (
+                                      <Grid item key={otherGuest.id}>
+                                        <div className="options"
+                                          variant="outlined"
+                                          size="small"
+                                          onClick={() =>
+                                            handlePairing(
+                                              guest.id,
+                                              otherGuest.id
+                                            )
+                                          }
+                                        >
+                                          {otherGuest.id}
+                                        </div>
+                                      </Grid>
+                                    ))}
+                                </Grid>
+                              </Box>
+                            )}
+                          </>
+                        )}
+                      </Box>
+                    </Step>
+                  ))}
+
+
+              </Stepper>
+
+
+
+
+
+
+              <div
+                onClick={handleNextx} className="arrow"
+                disabled={startStep + maxVisibleSteps >= initialGuests.length}
+              >
+                <img src="/images/icons_images/arrow_right.png" className="iconarrowR" alt="" />
+                {/* <ArrowForward /> */}
+              </div>
+            </Box>
+
+          
+          </Box>
+
+          <div className="boss"  >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+          
+                alignItems: "Center",
+                position: "relative",
+                width: "480px",
+                height: "350px",
+              }}
+            >
+              <CardStack >
+                {cards.map((item, index) => (
+                  <Box
+                    key={item.id}
+                    sx={{
+                      transform: `translateX(${(currentIndex - index) * -40}px) scale(${index === currentIndex ? 1 : 0.95})`,
+                      zIndex: cards.length - Math.abs(currentIndex - index),
+                      opacity: currentIndex === index ? 1 : 0.5,
+                      transition: "transform 0.3s linear, opacity 0.3s ease",
+                      
+                    }}
+                  >
+                    <ListItemA
+                      item={item}
+                      cardno={index}
+                      onPrev={handlePrev}
+                      onNext={handleNext}
+                      groups={groups}
+                      initialGuests={initialGuests}
+                      handleChangeColor={handleSubmit}
+                      handleClose={onClose}
+                      onInputChange={(field, value) =>
+                        handleInputChange(item.id, field, value)
+                      }
+                    />
+                  </Box>
+                ))}
+              </CardStack>
+            </Box>
+          </div>
+        <div className="popup-buttons">
+          <button onClick={handleSubmit}>Confirm</button>
+          {/* <button onClick={onClose}>Cancel</button> */}
+        </div>
+        </div>
+
+      </div>
+    // </div>
+  );
+};
+const TransportPopup = ({ onClose, onSave }) => {
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      salutation: "",
+      firstName: "girixx  ",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+    {
+      id: 2,
+      salutation: "",
+      firstName: "gaikwad  ",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+    {
+      id: 3,
+      salutation: "",
+      firstName: "gaikwad  ",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+    {
+      id: 4,
+      salutation: "",
+      firstName: "gaikwad  ",
+      lastName: "",
+      gender: "",
+      designation: "",
+      organization: "",
+      email: "",
+      countryCode: "",
+      phoneNumber: "",
+      arrivaltime: "",
+      departuretime: "",
+      accomodationvenue: "",
+    },
+  ]);
+
+  // console.log(cards);
+  const initialGuests = [...cards];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNextx = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
+  };
+
+  const handlePrevx = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
+    );
+  };
+
+  const handleInputChange = (id, field, value) => {
+    // console.log("yep iwam ");
+    const initialGuests = cards.map((card) =>
+      card.id === id ? { ...card, [field]: value } : card
+    );
+    setCards(initialGuests);
+  };
+
+  
+
+  ////////////
+
+  const [guestData, setGuestData] = useState(initialGuests);
+  const [groups, setGroups] = useState([]);
+  const [aloneGuests, setAloneGuests] = useState([]);
+  const [visibleStart, setVisibleStart] = useState(0); // Start of visible range
+  const [activeStep, setActiveStep] = useState(0); // Active step index
+  const [pairingOptionsVisible, setPairingOptionsVisible] = useState(null); // ID of the guest whose pairing options are visible
+  const visibleCount = 3; // Number of visible steps at a time
+
+  // console.log(groups)
+  // Function to find the group containing a guest
+  const findGroupContainingGuest = (guestId) => {
+    return groups.find((group) => group.includes(guestId));
+  };
+
+  // Function to handle pairing guests
+  const handlePairing = (guestId, pairedGuestId) => {
+    setGuestData((prevGuestData) => {
+      const guestGroup = findGroupContainingGuest(guestId);
+      const pairedGuestGroup = findGroupContainingGuest(pairedGuestId);
+
+      let newGroups = [...groups];
+
+      if (guestGroup && pairedGuestGroup && guestGroup !== pairedGuestGroup) {
+        // Merge two groups
+        const mergedGroup = Array.from(
+          new Set([...guestGroup, ...pairedGuestGroup])
+        );
+        newGroups = newGroups.filter(
+          (group) => group !== guestGroup && group !== pairedGuestGroup
+        );
+        newGroups.push(mergedGroup);
+      } else if (guestGroup) {
+        // Add pairedGuestId to guestGroup
+        newGroups = newGroups.map((group) =>
+          group === guestGroup
+            ? Array.from(new Set([...group, pairedGuestId]))
+            : group
+        );
+      } else if (pairedGuestGroup) {
+        // Add guestId to pairedGuestGroup
+        newGroups = newGroups.map((group) =>
+          group === pairedGuestGroup
+            ? Array.from(new Set([...group, guestId]))
+            : group
+        );
+      } else {
+        // Create a new group
+        newGroups.push([guestId, pairedGuestId]);
+      }
+
+      setGroups(newGroups);
+
+      return prevGuestData.filter((g) => !newGroups.flat().includes(g.id));
+    });
+
+    // Remove guests from aloneGuests list if they are paired
+    setAloneGuests((prevAloneGuests) =>
+      prevAloneGuests.filter((id) => id !== guestId && id !== pairedGuestId)
+    );
+  };
+  // Function to handle joining a group
+  const handleJoinGroup = (guestId, group) => {
+    setGuestData((prevGuestData) => {
+      const newGroup = [...group, guestId];
+
+      setGroups((prevGroups) => [
+        ...prevGroups.filter((g) => !g.some((id) => newGroup.includes(id))),
+        newGroup,
+      ]);
+
+      return prevGuestData.filter((g) => g.id !== guestId);
+    });
+
+    // Remove guests from aloneGuests list if they join a group
+    setAloneGuests((prevAloneGuests) =>
+      prevAloneGuests.filter((id) => id !== guestId)
+    );
+  };
+  // Function to handle staying alone
+  const handleStayAlone = (guestId) => {
+    setAloneGuests((prevAloneGuests) => [...prevAloneGuests, guestId]);
+    setGuestData((prevGuestData) =>
+      prevGuestData.filter((g) => g.id !== guestId)
+    );
+
+    // If guest is in a group, remove them from the group
+    setGroups((prevGroups) =>
+      prevGroups.map((group) => group.filter((id) => id !== guestId))
+    );
+  };
+  // Function to handle leaving alone
+  const handleLeaveAlone = (guestId) => {
+    setAloneGuests((prevAloneGuests) =>
+      prevAloneGuests.filter((id) => id !== guestId)
+    );
+    setGuestData((prevGuestData) => [
+      ...prevGuestData,
+      initialGuests.find((g) => g.id === guestId),
+    ]);
+  };
+  // Function to handle leaving a group
+  const handleLeaveGroup = (guestId) => {
+    // Find the group that the guest is leaving
+    let groupLeft = null;
+  
+    setGroups((prevGroups) => {
+      return prevGroups
+        .map((group) => {
+          if (group.includes(guestId)) {
+            // If the group contains the guest, remove them from the group
+            groupLeft = group.filter((id) => id !== guestId);
+  
+            // If the group has one or fewer members, dismantle the group
+            return groupLeft.length <= 1 ? [] : groupLeft;
+          }
+          return group;
+        })
+        .filter((group) => group.length > 0); // Remove any empty groups
+    });
+  
+    if (groupLeft && groupLeft.length > 0) {
+      // Add the remaining members of the group back to the available guests
+      setGuestData((prevGuestData) =>
+        prevGuestData
+          .filter((g) => !groupLeft.includes(g.id)) // Remove remaining group members from guestData
+          .concat(groupLeft.map((id) => initialGuests.find((g) => g.id === id))) // Add remaining members back to guestData
+      );
+    }
+  
+    // Finally, add the guest who left the group back to the available guests
+    setGuestData((prevGuestData) => [
+      ...prevGuestData,
+      initialGuests.find((g) => g.id === guestId),
+    ]);
+  };
+  
+  
+
+
+  
+  // Function to handle the previous button click
+  const handlePrev = () => {
+    setVisibleStart((prev) => Math.max(prev - 1, 0));
+    setActiveStep((prev) => Math.max(prev - 1, 0));
+  };
+  // Function to handle the next button click
+  const handleNext = () => {
+    const nextStep = activeStep + 1;
+    setVisibleStart((prev) =>
+      Math.min(prev + 1, initialGuests.length - visibleCount)
+    );
+    setActiveStep(nextStep);
+  };
+  // Function to toggle pairing options visibility
+  const togglePairingOptions = (guestId) => {
+    setPairingOptionsVisible((prevId) => (prevId === guestId ? null : guestId));
+  };
+
+  ////////////
+  const handleSubmit = () => {
+    // axios
+    //   .post("http://localhost:8000/event-booking/event", { eventName })
+    //   .then((response) => {
+    //     console.log("Event saved:", response.data);
+    onSave(); // Trigger the color change
+    onClose();
+    // })
+    // .catch((error) => {
+    //   console.error("Error saving event:", error);
+    // });
+  };
+
+  return (
+    <div className="popup-overlay">
+      <div className="popup-content transport" onClick={(e) => e.stopPropagation()}>
+
+
+
+        {/* <Box  sx={{ width: "100%", padding: "20px" }}> */}
+        <Box className="a" sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* <IconButton onClick={handlePrev} disabled={visibleStart === 0}>
+          <ArrowBack />
+        </IconButton> */}
+
+        <div
+                onClick={handlePrev} className="arrow" disabled={visibleStart === 0}
+              >
+                <img src="/images/icons_images/arrow_right.png" className="iconarrow" alt="" />
+                {/* <ArrowForward /> */}
+              </div>
+
+
+
+
+        <Stepper alternativeLabel nonLinear activeStep={activeStep} sx={{ flexGrow: 1 }}>
+          {initialGuests.slice(visibleStart, visibleStart + visibleCount).map((guest, index) => {
+            const inGroup = findGroupContainingGuest(guest.id);
+            const isAlone = aloneGuests.includes(guest.id);
+            const groupMembers = inGroup ? findGroupContainingGuest(guest.id) : [];
+
+            return (
+              <Step  key={guest.id}>
+                <StepLabel
+                  StepIconComponent={(props) => (
+                    <Box
+                      {...props}
+                      sx={{
+                        ...props.sx,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 35,
+                        height: 35,
+                        borderRadius: '11px',
+                        boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+                        borderColor: 'primary.main',
+                        fontSize: '14px',
+                        color: 'primary.main',
+                       
+                      }}
+                    >
+                      {guest.id}
+                    </Box>
+                  )}
+                >
+<div className="guestNames">
+                          <img className="guestImage" src="images/icons_images/bordername.png" alt="" />
+                        
+                        <p className="guestname">
+                        {guest.salutation} . {guest.firstName}
+                        </p>
+                        </div>
+
+
+
+
+                </StepLabel>
+
+
+
+                <Box sx={{ textAlign: 'center' }}>
+  <Grid container spacing={1} justifyContent="center">
+    {/* Pair button should only be visible if the guest is not alone */}
+    {!isAlone && (
+      <Grid item>
+        <div className="pair"
+          
+          onClick={() => togglePairingOptions(guest.id)}
+        ><BsFillPeopleFill /> 
+        </div>
+      </Grid>
+    )}
+
+    {/* Stay Alone button always visible */}
+    <Grid item>
+      {!isAlone ? (
+        <div className="alone"
+         
+         
+          onClick={() => handleStayAlone(guest.id)}
+          >
+         <PersonOutline />
+          
+        </div>
+      ) : (
+        <div
+          className="undoalone"
+        onClick={() => handleLeaveAlone(guest.id)}
+        >
+        <Undo />
+          Undo Alone
+        </div>
+      )}
+    </Grid>
+  </Grid>
+
+  {pairingOptionsVisible === guest.id && !isAlone && (
+    <Box sx={{ marginTop: '10px' }}>
+      {!inGroup && (
+        <Grid container spacing={1} justifyContent="center">
+          {guestData
+            .filter(otherGuest => otherGuest.id !== guest.id)
+            .map(otherGuest => (
+              <Grid item key={otherGuest.id}>
+                <div
+                   className="options"
+                  
+                  onClick={() => handlePairing(guest.id, otherGuest.id)}
+                >
+                
+                  <Typography variant="caption" sx={{ display: 'block', marginTop: '2px' }}>
+                     {otherGuest.id}
+                  </Typography>
+                </div>
+              </Grid>
+            ))}
+
+          {groups
+            .filter(group => !group.includes(guest.id))
+            .map((group, index) => (
+              <Grid item key={index}>
+
+
+                <div
+                  className="optionsjoin"
+                  onClick={() => handleJoinGroup(guest.id, group)}
+                  >
+                  {/* <GroupAdd /> */}
+                  Join - 
+                  <Typography variant="caption">
+                    {group.map(id => {
+                      const member = initialGuests.find(g => g.id === id);
+                      return member ? ` ${id}` : '';
+                    }).join(' , ')}
+                  </Typography>
+                </div>
+
+
+              </Grid>
+            ))}
+        </Grid>
+      )}
+
+      {inGroup && (
+        <Box>
+          <Typography variant="body2" sx={{ marginBottom: '5px' }}>
+            Group Members:
+          </Typography>
+          <Grid container spacing={1} justifyContent="center">
+            {groupMembers.map((memberId) => {
+              const member = initialGuests.find(g => g.id === memberId);
+              return (
+                <div  item key={memberId}>
+                  <Chip style={{marginRight:"4px"}}  label={`  ${member.id}`} />
+                </div>
+              );
+            })}
+              <div
+                className="undoalone"
+                onClick={() => handleLeaveGroup(guest.id)}
+                >
+                <GroupRemove />
+                Leave Group
+              </div>
+          </Grid>
+         
+            
+            
+        
+        </Box>
+      )}
+    </Box>
+  )}
+</Box>
+
+
+              </Step>
+            );
+          })}
+        </Stepper>
+
+
+
+
+
+
+        <div
+                onClick={handleNext} disabled={visibleStart + visibleCount >= initialGuests.length}
+              >
+                <img src="/images/icons_images/arrow_right.png" className="iconarrowR" alt="" />
+                {/* <ArrowForward /> */}
+              </div>
+
+
+      </Box>
+        {/* </Box> */}
+
+        <div className="boss">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+              top:"80px",
+              // border:"solid black",
+              width: "700px",
+              height: "350px",
+            }}
+          >
+            <CardStack >
+              {cards.map((item, index) => (
+                <Box
+                  key={item.id}
+                  sx={{
+                    transform: `translateX(${(currentIndex - index) * -30}px) scale(${index === currentIndex ? 1 : 0.95})`,
+                    zIndex: cards.length - Math.abs(currentIndex - index),
+                    opacity: currentIndex === index ? 1 : 0.5,
+                    transition: "transform 0.3s linear, opacity 0.3s ease",
+      
+                  }}
+                >
+                  <ListItemT
+                    item={item}
+                    cardno={index}
+                    onPrev={handlePrevx}
+                    onNext={handleNextx}
+                    groups={groups}
+                    initialGuests={initialGuests}
+                    handleChangeColor={handleSubmit}
+                    handleClose={onClose}
+                    onInputChange={(field, value) =>
+                      handleInputChange(item.id, field, value)
+                    }
+                  />
+                </Box>
+              ))}
+            </CardStack>
+          </Box>
+        </div>
+
+        <div className="transportsave">
+          <button onClick={handleSubmit}>Save</button>
+          {/* <button onClick={onClose}>Cancel</button> */}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const EventPopup = ({ onClose, onSave }) => {
@@ -281,18 +1626,16 @@ const EventPopup = ({ onClose, onSave }) => {
       end_at: formattedEndDate,
     };
 
-    axios
+    axios;
     //   .post("http://localhost:8000/post/eventform", FormattedFormData)
     //   .then((response) => {
     //     console.log(FormattedFormData);
     //     console.log("Event saved:", response.data);
     //     const id = response.data.event_id; // getting the insterted event_id from the backend.
 
-        alert(
-          "Event Data fetched to database table successfully\n event_id: "  
-        );
-        onSave(); // Trigger the color change
-        onClose();
+    alert("Event Data fetched to database table successfully\n event_id: ");
+    onSave(); // Trigger the color change
+    onClose();
     //   })
     //   .catch((error) => {
     //     console.error("Error saving event:", error);
@@ -386,9 +1729,7 @@ const EventPopup = ({ onClose, onSave }) => {
     </div>
   );
 };
-
 // export default EventPopup;
-
 const GuestPopup = ({ onClose, onSave }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -450,12 +1791,7 @@ const GuestPopup = ({ onClose, onSave }) => {
     setCards(newCards);
   };
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleNext,
-    onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
+  
 
   const handleSubmit = () => {
     // axios
@@ -491,17 +1827,16 @@ const GuestPopup = ({ onClose, onSave }) => {
             height: "500px",
           }}
         >
-          <CardStack {...swipeHandlers}>
+          <CardStack >
             {cards.map((item, index) => (
               <Box
                 key={item.id}
                 sx={{
-                  transform: `translateX(${
-                    (currentIndex - index) * 40
-                  }px) scale(${index === currentIndex ? 1 : 0.95})`,
-                  zIndex: cards.length - Math.abs(currentIndex - index),
-                  opacity: currentIndex === index ? 1 : 0.5,
-                  transition: "transform 0.3s ease, opacity 0.3s ease",
+                  transform: `translateX(${(currentIndex - index) * -40}px) scale(${index === currentIndex ? 1 : 0.95})`,
+zIndex: cards.length - Math.abs(currentIndex - index),
+opacity: currentIndex === index ? 1 : 0.5,
+transition: "transform 0.3s linear, opacity 0.3s ease",
+
                 }}
               >
                 <ListItem
@@ -529,14 +1864,18 @@ const GuestPopup = ({ onClose, onSave }) => {
     </div>
   );
 };
-
 const ParticipantsPopup = ({ onClose, onSave }) => {
   const [internalParticipants, setInternalParticipants] = useState(0);
-  const [externalParticipants, setExternalParticipants] = useState(0);
+  const [boyscount, setboyscount] = useState(0);
   const [girlsCount, setGirlsCount] = useState(0);
   const [maleFacultyCount, setMaleFacultyCount] = useState(0);
   const [femaleFacultyCount, setFemaleFacultyCount] = useState(0);
   const [accommodation, setAccommodation] = useState(false);
+
+  const [HmaleFacultyCount, setHMaleFacultyCount] = useState(0);
+  const [HfemaleFacultyCount, setHFemaleFacultyCount] = useState(0);
+  const [HgirlsCount, setHGirlsCount] = useState(0);
+  const [Hboyscount, setHboyscount] = useState(0);
 
   const handleSliderChange = (setter) => (event, newValue) => {
     setter(newValue);
@@ -693,6 +2032,12 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
     </div>
   );
 
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setFlipped(!flipped);
+  };
+
   const handleSubmit = () => {
     // axios
     //   .post("http://localhost:8000/event-booking/event", { eventName })
@@ -707,9 +2052,9 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="popup-overlay">
+    <div className={`popup-overlay Card box  ${flipped ? "flipped" : ""}`}>
       <div
-        className="popup-content"
+        className="popup-content card-front"
         style={{ width: "30%" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -719,17 +2064,15 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
           <Typography variant="h5" gutterBottom>
             Participants Count
           </Typography>
-
           {renderSlider(
             "Count of Internal Participants",
             internalParticipants,
             setInternalParticipants
           )}
-          {renderSlider(
-            "Count of External Participants",
-            externalParticipants,
-            setExternalParticipants
-          )}
+          Count of External Participants
+          <br />
+          <br />
+          {renderSlider("Count of Boys", boyscount, setboyscount)}
           {renderSlider("Count of Girls", girlsCount, setGirlsCount)}
           <div style={{ display: "flex", gap: "10%" }}>
             {renderCounter(
@@ -743,11 +2086,11 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
               setFemaleFacultyCount
             )}
           </div>
-
           <FormControlLabel
             control={
               <Checkbox
                 checked={accommodation}
+                onClick={handleFlip}
                 onChange={handleAccommodationChange}
                 color="primary"
               />
@@ -761,77 +2104,29 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
           <button onClick={onClose}>Cancel</button>
         </div>
       </div>
-    </div>
-  );
-};
-const AccomodationPopup = ({ onClose, onSave }) => {
-  const [eventName, setEventName] = useState("");
 
-  const handleSubmit = () => {
-    // axios
-    //   .post("http://localhost:8000/event-booking/event", { eventName })
-    //   .then((response) => {
-    //     console.log("Event saved:", response.data);
-    onSave(); // Trigger the color change
-    onClose();
-    // })
-    // .catch((error) => {
-    //   console.error("Error saving event:", error);
-    // });
-  };
+      <div className="card-back popup-content">
+        <p onClick={handleFlip}>car</p>
 
-  return (
-    <div className="popup-overlay">
-      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Accomodation Details</h2>
-        <input
-          type="text"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
-          placeholder="Enter Event Name"
-        />
-        <div className="popup-buttons">
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Cancel</button>
-        </div>
+        {renderSlider("Count of Boys", Hboyscount, setHboyscount)}
+
+        {renderSlider("Count of Boys", HgirlsCount, setHGirlsCount)}
+
+        {renderCounter(
+          "Count of Female Faculty",
+          HfemaleFacultyCount,
+          setHFemaleFacultyCount
+        )}
+        {renderCounter(
+          "Count of male Faculty",
+          HmaleFacultyCount,
+          setHMaleFacultyCount
+        )}
       </div>
     </div>
   );
 };
-const TransportPopup = ({ onClose, onSave }) => {
-  const [eventName, setEventName] = useState("");
 
-  const handleSubmit = () => {
-    // axios
-    //   .post("http://localhost:8000/event-booking/event", { eventName })
-    //   .then((response) => {
-    //     console.log("Event saved:", response.data);
-    onSave(); // Trigger the color change
-    onClose();
-    // })
-    // .catch((error) => {
-    //   console.error("Error saving event:", error);
-    // });
-  };
-
-  return (
-    <div className="popup-overlay">
-      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Transport Details</h2>
-        <input
-          type="text"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
-          placeholder="Enter Event Name"
-        />
-        <div className="popup-buttons">
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Cancel</button>
-        </div>
-      </div>
-    </div>
-  );
-};
 const VenuePopup = ({ onClose, onSave }) => {
   const [eventName, setEventName] = useState("");
   const [venueCount, setVenueCount] = useState(0);
@@ -975,6 +2270,7 @@ const VenuePopup = ({ onClose, onSave }) => {
     </div>
   );
 };
+
 const VenueRequirementPopup = ({ onClose, onSave }) => {
   const TickIcon = () => (
     <svg
@@ -1014,31 +2310,46 @@ const VenueRequirementPopup = ({ onClose, onSave }) => {
     },
   });
 
-  const handleSubmit = () => {
-    // axios
-    //   .post("http://localhost:8000/event-booking/event", { eventName })
-    //   .then((response) => {
-    //     console.log("Event saved:", response.data);
-    onSave(); // Trigger the color change
-    onClose();
-    // })
-    // .catch((error) => {
-    //   console.error("Error saving event:", error);
-    // });
-  };
-
   const [selectedContent, setSelectedContent] = useState([]);
+  const [quantities, setQuantities] = useState({});
+
+  const [quantityDialogOpen, setQuantityDialogOpen] = useState(false);
 
   const handleClick = (item) => {
     setSelectedContent((prevSelectedContent) => {
       if (prevSelectedContent.includes(item.name)) {
-        return prevSelectedContent.filter((content) => content !== item.name);
+        const updatedSelectedContent = prevSelectedContent.filter(
+          (content) => content !== item.name
+        );
+        const updatedQuantities = { ...quantities };
+        delete updatedQuantities[item.name];
+        setQuantities(updatedQuantities);
+        return updatedSelectedContent;
       } else {
         return [...prevSelectedContent, item.name];
       }
     });
   };
 
+  const handleQuantityChange = (itemName, quantity) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemName]: quantity,
+    }));
+  };
+
+  const handleSubmit = () => {
+    onSave(); // Trigger the save action
+    onClose(); // Close the popup
+  };
+
+  const openQuantityDialog = () => {
+    setQuantityDialogOpen(true);
+  };
+
+  const closeQuantityDialog = () => {
+    setQuantityDialogOpen(false);
+  };
   const items = [
     { name: "Guest chair", image: "/images/image.png" },
     { name: "Live streaming", image: "url_to_image_2" },
@@ -1061,13 +2372,15 @@ const VenueRequirementPopup = ({ onClose, onSave }) => {
 
   return (
     <div className="popup-overlay">
-      <div className="popup-content" style={{width:"80%",height:"80%"}} onClick={(e) => e.stopPropagation()}>
-        <h2>VenueRequirements Details</h2>
-
+      <div
+        className="popup-content"
+        style={{ width: "80%", height: "80%" }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ThemeProvider theme={theme}>
           <div className="itemschoosing">
-            <h3>Select the items you need for your venue</h3>
             <h3>Venue Requirements</h3>
+            <h3>Select the items you need for your venue</h3>
             <div className="flex">
               <div className="grid-container">
                 {items.map((item) => (
@@ -1093,16 +2406,41 @@ const VenueRequirementPopup = ({ onClose, onSave }) => {
                   </div>
                 ))}
               </div>
-              
+
+              <Dialog open={quantityDialogOpen} onClose={closeQuantityDialog}>
+                <DialogTitle>Selected Items and Quantities</DialogTitle>
+                <DialogContent>
+                  {selectedContent.map((itemName) => (
+                    <div key={itemName} style={{ marginBottom: "10px" }}>
+                      <Typography variant="body1">{itemName}</Typography>
+                      <TextField
+                        label="Quantity"
+                        type="number"
+                        value={quantities[itemName] || ""}
+                        onChange={(e) =>
+                          handleQuantityChange(itemName, e.target.value)
+                        }
+                        fullWidth
+                      />
+                    </div>
+                  ))}
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={closeQuantityDialog} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSubmit} color="primary">
+                    Confirm
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
             <div className="popup-buttons">
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Cancel</button>
-        </div>
+              <button onClick={openQuantityDialog}>Save</button>
+              <button onClick={onClose}>Cancel</button>
+            </div>
           </div>
         </ThemeProvider>
-
-        
       </div>
     </div>
   );

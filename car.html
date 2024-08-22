@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Grid Example</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Responsive Grid</title>
 </head>
-<body>
-    <div class="grid-container">
-        <div class="grid-item">Item 1</div>
-        <div class="grid-item">Item 2</div>
-        <div class="grid-item">Item 3</div>
-        <div class="grid-item">Item 4</div>
-        <div class="grid-item">Item 5</div>
-        <div class="grid-item">Item 6</div>
-    </div>
+<body style="margin: 0; font-family: Arial, sans-serif;">
+
+<div style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+">
+    <div style="background-color: #f4a261; padding: 20px; text-align: center; border-radius: 8px;">Item 1</div>
+    <div style="background-color: #e76f51; padding: 20px; text-align: center; border-radius: 8px;">Item 2</div>
+    <div style="background-color: #2a9d8f; padding: 20px; text-align: center; border-radius: 8px;">Item 3</div>
+    <div style="background-color: #264653; padding: 20px; text-align: center; border-radius: 8px;">Item 4</div>
+    <div style="background-color: #e9c46a; padding: 20px; text-align: center; border-radius: 8px;">Item 5</div>
+    <div style="background-color: #f4a261; padding: 20px; text-align: center; border-radius: 8px;">Item 6</div>
+</div>
+
 </body>
 </html>

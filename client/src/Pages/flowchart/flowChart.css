@@ -16,7 +16,7 @@
   left: 0;
 }
 .tree {
-  /* border:  solid red; */
+
   overflow: scroll; /* Enable scrolling */
   scrollbar-width: none; /* For Firefox: hide scrollbar */
   -ms-overflow-style: none; /* For Internet Explorer and Edge: hide scrollbar */
@@ -74,7 +74,6 @@
 }
 /* flowchart bottom line */
 .tree ul ul::before {
-  /* border: solid red; */
   content: "";
   position: absolute;
   top: 0;
@@ -151,4 +150,9 @@
   .tree li {
     margin: 0;
   }
+}
+.relative{
+  position: absolute;
+  top: 15%;
+  right: 2%;
 }

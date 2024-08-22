@@ -18,6 +18,7 @@ import {
   VenuePopup,
   VenueRequirementPopup,
 } from "../popups/popUp";
+import SpecialRequest from "../specialrequest/specialrequest";
 
 const treeData = [
   {
@@ -174,6 +175,7 @@ const TreeStructure = () => {
 
   return (
     <>
+      
       <div className="tree">
         {treeRendering(
           treeData,
@@ -187,6 +189,10 @@ const TreeStructure = () => {
         <button type="submit" onClick={confirm}>Confirm</button>
         <button type="submit">Re-Request</button>
         <button type="submit">Go Back</button>
+      </div>
+      <div className="relative">
+
+      <SpecialRequest/>
       </div>
       </div>
     </>
@@ -202,6 +208,7 @@ const treeRendering = (
 ) => {
   return (
     <>
+  
       <ul>
         {treeData.map((item) => (
           <li key={item.id} className={`${item.text} ${item.id}`}>
