@@ -77,7 +77,6 @@ const TreeStructure = () => {
   const [progressMap, setProgressMap] = useState({ Invitees: 0 });
   const [changeborder, setborder] = useState({});
 
-
   const [formData, setFormData] = useState({
     user_id: 1,
     event_code: "IT1002",
@@ -88,9 +87,9 @@ const TreeStructure = () => {
     assigned_to: "",
   });
 
-  const confirm =()=>{
+  const confirm = () => {
     const formattedStartDate = formData.start_at.replace("T", " ") + ":00";
-  const formattedEndDate = formData.end_at.replace("T", " ") + ":00";
+    const formattedEndDate = formData.end_at.replace("T", " ") + ":00";
 
     // Update formData with the formatted dates
     const FormattedFormData = {
@@ -106,14 +105,17 @@ const TreeStructure = () => {
         console.log("Event saved:", response.data);
         const id = response.data.event_id; // getting the insterted event_id from the backend.
 
-        alert("Event Data fetched to database table successfully\n event_id: ",id);
+        alert(
+          "Event Data fetched to database table successfully\n event_id: ",
+          id
+        );
         onSave(); // Trigger the color change
         onClose();
       })
       .catch((error) => {
         console.error("Error saving event:", error);
       });
-  }
+  };
 
   const handleBoxClick = (item) => {
     if (item.id === "Event" || isEventCompleted || item.id === "Invitees") {
@@ -155,7 +157,13 @@ const TreeStructure = () => {
     };
     switch (selectedItem.popup) {
       case "EventPopup":
-        return <EventPopup {...popupProps} formData={formData} setFormData={setFormData} />;
+        return (
+          <EventPopup
+            {...popupProps}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        );
       case "GuestPopup":
         return <GuestPopup {...popupProps} />;
       case "AccomodationPopup":
@@ -175,7 +183,6 @@ const TreeStructure = () => {
 
   return (
     <>
-      
       <div className="tree">
         {treeRendering(
           treeData,
@@ -185,15 +192,18 @@ const TreeStructure = () => {
           progressMap
         )}
         {renderPopup()}
+
+        <div className="relative">
+          <SpecialRequest />
+        </div>
+      </div>
+
       <div className="confirmsubmit">
-        <button type="submit" onClick={confirm}>Confirm</button>
+        <button type="submit" onClick={confirm}>
+          Confirm
+        </button>
         <button type="submit">Re-Request</button>
         <button type="submit">Go Back</button>
-      </div>
-      <div className="relative">
-
-      <SpecialRequest/>
-      </div>
       </div>
     </>
   );
@@ -208,7 +218,6 @@ const treeRendering = (
 ) => {
   return (
     <>
-  
       <ul>
         {treeData.map((item) => (
           <li key={item.id} className={`${item.text} ${item.id}`}>
@@ -237,14 +246,46 @@ const treeRendering = (
                 }}
               >
                 {item.id === "Invitees" && (
-                  <CircularProgress
-                    variant="determinate"
-                    value={progressMap.Invitees}
-                    size="80px"
-                    thickness={2}
-                    className="redProgress"
-                    style={{ position: "absolute", top: 2, left: 8, zIndex: 1 }}
-                  />
+                  <>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 1,
+                        left: 3,
+                        zIndex: 1,
+                        border: "solif black",
+                      }}
+                    >
+                      <CircularProgress
+                        variant="determinate"
+                        value={100}
+                        size="80px"
+                        thickness={2}
+                        className="grayProgress"
+                        style={{
+                          position: "absolute",
+                          top: 2,
+                          left: 8,
+                          zIndex: 1,
+                          border: "solif black",
+                        }}
+                      />
+                      <CircularProgress
+                        variant="determinate"
+                        value={progressMap.Invitees}
+                        size="80px"
+                        thickness={2}
+                        className="redProgress"
+                        style={{
+                          position: "absolute",
+                          top: 2,
+                          left: 8,
+                          zIndex: 1,
+                          border: "solif black",
+                        }}
+                      />
+                    </div>
+                  </>
                 )}
                 <img
                   src={item.image}
@@ -253,7 +294,7 @@ const treeRendering = (
                     // zIndex: 2,
                     position: "relative",
                     width: item.id === "Invitees" ? "70px" : "", // Reduce size only for Invitees
-                    top: item.id === "Invitees" ? "10px" : "", // Reduce size only for Invitees
+                    top: item.id === "Invitees" ? "12px" : "", // Reduce size only for Invitees
                     height: item.id === "Invitees" ? "auto" : "", // Adjust height to maintain aspect ratio
                   }}
                 />

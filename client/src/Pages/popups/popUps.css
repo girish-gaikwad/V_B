@@ -17,8 +17,7 @@
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  width: 60%;
-  height: 70%;
+
 }
 
 .popup-content h2 {
@@ -43,9 +42,6 @@
 .popup-buttons button:last-child {
   background-color: #6c757d;
 }
-.event-form {
-  padding: 20px;
-}
 .event-form label{
     color: #2B3674;
 }
@@ -61,10 +57,7 @@
     display: flex;
 
 }
-.event-form .datebox input{
-    width: 25%;
-    margin-top: 25px;
-}
+
 .event-type{
     margin: 10px 0;
 }
@@ -161,8 +154,6 @@
 
 
 
-
-
 /* Participation card flip start */
 .card-front,
 .card-back {
@@ -179,7 +170,8 @@
 .card-back {
   transform: rotateY(-180deg);
   font-size: 10px;
-  text-align: center;
+  /* text-align: center; */
+  font-size: 15px;
 }
 
 .flipped .card-front {

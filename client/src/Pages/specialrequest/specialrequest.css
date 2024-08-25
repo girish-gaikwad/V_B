@@ -31,3 +31,19 @@
     height: 45px;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   }
+.spbuttons{
+  color: white;
+  background-color: #3A77EF;
+  padding: 12px;
+  border-radius: 8px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.spbuttonsicon{
+  color: white;
+  background-color: #3A77EF;
+  padding: 5px;
+  border-radius: 8px;
+  margin-right: 5px;
+  cursor: pointer;
+}

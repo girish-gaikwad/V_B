@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -6,7 +6,7 @@ import "./popUps.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Center, Input } from "@chakra-ui/react";
 import { BsFillPeopleFill } from "react-icons/bs";
-import { IoIosArrowBack,IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import {
   Slider,
@@ -74,207 +74,228 @@ const CardStack = styled("div")({
   },
 });
 
-const ListItem = React.memo(({
-  item,
-  onPrev,
-  onNext,
-  onAdd,
-  onDelete,
-  onInputChange,
-  handleChangeColor,
-  handleClose,
-}) => {
-  return (
-    <Card
-      sx={{
-        paddingLeft: "20px",
-        paddingRight: "20px",
-        paddingTop: "50px",
-        maxWidth: "800px",
-        height: "510px",
-        boxShadow: 3,
-        borderRadius: 2,
-        // border: "solid black",
-      }}
-    >
-      <Box
+const ListItem = React.memo(
+  ({
+    item,
+    onPrev,
+    onNext,
+    onAdd,
+    onDelete,
+    onInputChange,
+    handleChangeColor,
+    handleClose,
+  }) => {
+    return (
+      <Card
         sx={{
-          display: "flex",
-          alignItems: "center",
-          // border: 'solid black',
-          position: "absolute",
-          left: "66%",
-          top: "1%",
-          padding: "0 10px",
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          paddingTop: "50px",
+          maxWidth: "800px",
+          boxShadow: 3,
+          borderRadius: 2,
+          // border: "solid black",
         }}
       >
-        <FormLabel sx={{ flexShrink: 0, width: "90px" }}>Guest Count</FormLabel>
-        <p style={{ margin: "0 20px" }}> {item.id}</p>
-        <IoPersonAddOutline
-          onClick={onAdd}
-          style={{
-            width: "20px",
-            height: "20px",
-            cursor: "pointer",
-            marginRight: "10px",
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            position: "absolute",
+            left: "66%",
+            top: "3%",
+            padding: "0 10px",
           }}
-        />
-        <HiOutlineXMark
-          onClick={onDelete}
-          style={{ width: "20px", height: "20px", cursor: "pointer" }}
-        />
-      </Box>
+        >
+          <FormLabel sx={{ flexShrink: 0, width: "90px" }}>
+            Guest Count
+          </FormLabel>
+          <p style={{ margin: "0 20px" }}> {item.id}</p>
+          <IoPersonAddOutline
+            onClick={onAdd}
+            style={{
+              width: "20px",
+              height: "20px",
+              cursor: "pointer",
+              marginRight: "10px",
+            }}
+          />
+          <HiOutlineXMark
+            onClick={onDelete}
+            style={{ width: "20px", height: "20px", cursor: "pointer" }}
+          />
+        </Box>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={2}>
-          <FormControl fullWidth>
-            <FormLabel>Salutation</FormLabel>
-            <TextField
-              placeholder="Eg: Mr"
-              variant="outlined"
-              value={item.salutation}
-              onChange={(e) => onInputChange("salutation", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl fullWidth>
-            <FormLabel>First Name</FormLabel>
-            <TextField
-              placeholder="Eg: RIYA"
-              variant="outlined"
-              value={item.firstName}
-              onChange={(e) => onInputChange("firstName", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <FormControl fullWidth>
-            <FormLabel>Last Name</FormLabel>
-            <TextField
-              placeholder="Eg: K"
-              variant="outlined"
-              value={item.lastName}
-              onChange={(e) => onInputChange("lastName", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={12}>
-          <FormControl component="fieldset" fullWidth>
-            <FormLabel>Gender</FormLabel>
-            <RadioGroup
-              row
-              value={item.gender}
-              onChange={(e) => onInputChange("gender", e.target.value)}
-            >
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
+        <Grid container spacing={1.5}>
+          <Grid item xs={12} sm={6} md={2}>
+            <FormControl fullWidth>
+              <FormLabel>Salutation</FormLabel>
+              <TextField
+                placeholder="Eg: Mr"
+                variant="outlined"
+                value={item.salutation}
+                onChange={(e) => onInputChange("salutation", e.target.value)}
               />
-              <FormControlLabel
-                value="others"
-                control={<Radio />}
-                label="Others"
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl fullWidth>
+              <FormLabel>First Name</FormLabel>
+              <TextField
+                placeholder="Eg: RIYA"
+                variant="outlined"
+                value={item.firstName}
+                onChange={(e) => onInputChange("firstName", e.target.value)}
               />
-            </RadioGroup>
-          </FormControl>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl fullWidth>
+              <FormLabel>Last Name</FormLabel>
+              <TextField
+                placeholder="Eg: K"
+                variant="outlined"
+                value={item.lastName}
+                onChange={(e) => onInputChange("lastName", e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={12}>
+            <FormControl component="fieldset" fullWidth>
+              <FormLabel>Gender</FormLabel>
+              <RadioGroup
+                row
+                value={item.gender}
+                onChange={(e) => onInputChange("gender", e.target.value)}
+              >
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="others"
+                  control={<Radio />}
+                  label="Others"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={6}>
+            <FormControl fullWidth>
+              <FormLabel>Designation</FormLabel>
+              <TextField
+                select
+                variant="outlined"
+                value={item.designation}
+                onChange={(e) => onInputChange("designation", e.target.value)}
+              >
+                <MenuItem value="software-developer">
+                  Software Developer
+                </MenuItem>
+                <MenuItem value="manager">Manager</MenuItem>
+                <MenuItem value="designer">Designer</MenuItem>
+              </TextField>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={6}>
+            <FormControl fullWidth>
+              <FormLabel>Organization</FormLabel>
+              <TextField
+                placeholder="Eg: KTC Private Limited"
+                variant="outlined"
+                value={item.organization}
+                onChange={(e) => onInputChange("organization", e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={12}>
+            <FormControl fullWidth>
+              <FormLabel>Email</FormLabel>
+              <TextField
+                placeholder="Eg: John@gmail.com"
+                variant="outlined"
+                value={item.email}
+                onChange={(e) => onInputChange("email", e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={2.2}>
+            <FormControl fullWidth>
+              <FormLabel>Country Code</FormLabel>
+              <TextField
+                placeholder="Eg: +91"
+                variant="outlined"
+                value={item.countryCode}
+                onChange={(e) => onInputChange("countryCode", e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl fullWidth>
+              <FormLabel>Phone Number</FormLabel>
+              <TextField
+                placeholder="Eg: 9866587745"
+                variant="outlined"
+                value={item.phoneNumber}
+                onChange={(e) => onInputChange("phoneNumber", e.target.value)}
+              />
+            </FormControl>
+          </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={6}>
-          <FormControl fullWidth>
-            <FormLabel>Designation</FormLabel>
-            <TextField
-              select
-              variant="outlined"
-              value={item.designation}
-              onChange={(e) => onInputChange("designation", e.target.value)}
-            >
-              <MenuItem value="software-developer">Software Developer</MenuItem>
-              <MenuItem value="manager">Manager</MenuItem>
-              <MenuItem value="designer">Designer</MenuItem>
-            </TextField>
-          </FormControl>
-        </Grid>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
+          <DialogActions>
 
-        <Grid item xs={12} sm={6} md={6}>
-          <FormControl fullWidth>
-            <FormLabel>Organization</FormLabel>
-            <TextField
-              placeholder="Eg: KTC Private Limited"
-              variant="outlined"
-              value={item.organization}
-              onChange={(e) => onInputChange("organization", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
 
-        <Grid item xs={12} sm={6} md={12}>
-          <FormControl fullWidth>
-            <FormLabel>Email</FormLabel>
-            <TextField
-              placeholder="Eg: John@gmail.com"
-              variant="outlined"
-              value={item.email}
-              onChange={(e) => onInputChange("email", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
 
-        <Grid item xs={12} sm={6} md={2.2}>
-          <FormControl fullWidth>
-            <FormLabel>Country Code</FormLabel>
-            <TextField
-              placeholder="Eg: +91"
-              variant="outlined"
-              value={item.countryCode}
-              onChange={(e) => onInputChange("countryCode", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
+            
 
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl fullWidth>
-            <FormLabel>Phone Number</FormLabel>
-            <TextField
-              placeholder="Eg: 9866587745"
-              variant="outlined"
-              value={item.phoneNumber}
-              onChange={(e) => onInputChange("phoneNumber", e.target.value)}
-            />
-          </FormControl>
-        </Grid>
-      </Grid>
+            <div className="cardsarrow" onClick={onPrev}>
+              <IoIosArrowBack />
+            </div>
+   
+            <div className="cardsarrow" onClick={onNext}>
+              <IoIosArrowForward />
+            </div>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <DialogActions>
-          <IconButton onClick={onNext}>
-            <FaArrowLeft />
-          </IconButton>
-          <IconButton onClick={onPrev}>
-            <FaArrowRight />
-          </IconButton>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleChangeColor} color="primary">
-            Change Color
-          </Button>
-        </DialogActions>
-      </Box>
-    </Card>
-  );
-});
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleChangeColor} color="primary">
+              Change Color
+            </Button>
+
+
+
+          </DialogActions>
+
+
+
+        </Box>
+      </Card>
+    );
+  }
+);
 
 const findPair = (number, pairs) => {
   for (const pair of pairs) {
@@ -310,227 +331,237 @@ const findGroupMembers = (number, pairs) => {
   return []; // Return an empty array if the number is not found in any group
 };
 
-
-
-const ListItemA = React.memo(({
-  cardno,
-  item,
-  onPrev,
-  onNext,
-  onInputChange,
-  handleClose,
-  groups,
-  initialGuests,
-}) => {
-  const pairedman = findPair(cardno + 1, groups);
-  // console.log(groups)
-  return (
-    <Card
-      sx={{
-        paddingLeft: "20px",
-        paddingRight: "20px",
-        // paddingTop: "50px",
-        // maxWidth: "800px",
-        height: "370px",
-        boxShadow: 3,
-        borderRadius: 2,
-        // border: "solid black",
-      }}
-    >
-
-<div style={{display:"flex",justifyContent:"end",alignItems:"center",}}>
-
-<div className="options" style={{marginRight:"5px",marginTop:"5px"}}>
-
-      {cardno + 1}
-</div>
-
-{pairedman && (
-  <div className="options" style={{ marginRight: "5px", marginTop: "5px" }}>
-    {pairedman}
-  </div>
-)}
-</div>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={12}>
-          <FormLabel>Arrival Time</FormLabel>
-
-          <TextField
-            style={{ width: "100%" }}
-            // label="Select Date"
-            type="date"
-            value={item.arrivaltime}
-            onChange={(e) => onInputChange("arrivaltime", e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={12}>
-          <FormLabel>Arrival Time</FormLabel>
-
-          <TextField
-            style={{ width: "100%" }}
-            // label="Select Date"
-            type="date"
-            value={item.arrivaltime}
-            onChange={(e) => onInputChange("arrivaltime", e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={12}>
-          <FormControl fullWidth>
-            <FormLabel>Accomodaton venue</FormLabel>
-            <TextField
-              select
-              variant="outlined"
-              value={item.accomodationvenue}
-              onChange={(e) =>
-                onInputChange("accomodationvenue", e.target.value)
-              }
-            >
-              <MenuItem value="Guest House">guest House</MenuItem>
-              <MenuItem value="hostel">hostel</MenuItem>
-              <MenuItem value="room">room</MenuItem>
-            </TextField>
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      <Box
+const ListItemA = React.memo(
+  ({
+    cardno,
+    item,
+    onPrev,
+    onNext,
+    onInputChange,
+    handleClose,
+    groups,
+    initialGuests,
+  }) => {
+    const pairedman = findPair(cardno + 1, groups);
+    // console.log(groups)
+    return (
+      <Card
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          // paddingTop: "50px",
+          // maxWidth: "800px",
+          height: "370px",
+          boxShadow: 3,
+          borderRadius: 2,
+          // border: "solid black",
         }}
       >
-        <DialogActions>
-          <div className="cardsarrow" onClick={onPrev}>
-          <IoIosArrowBack />
-          </div>
-        
-          <Button style={{height:"35px", color:"white"}} >save</Button>
-
-          <div className="cardsarrow" onClick={onNext}>
-            <IoIosArrowForward  />
-          </div>
-
-        </DialogActions>
-      </Box>
-    </Card>
-  );
-});
-const ListItemT = React.memo(({
-  cardno,
-  item,
-  onPrev,
-  onNext,
-  onInputChange,
-  handleClose,
-  groups,
-  initialGuests,
-  // isRightEnabled,
-  // isLeftEnabled
-}) => {
-  const [tripType, setTripType] = useState("Both");
-
-  const handleTripTypeChange = (event, newTripType) => {
-    if (newTripType !== null) {
-      setTripType(newTripType);
-    }
-  };
-  const isLeftEnabled = tripType === "Both" || tripType === "Onward";
-  const isRightEnabled = tripType === "Both" || tripType === "Return";
-  const pairedman = findGroupMembers(cardno + 1, groups);
-  // console.log(tripType)
-  return (
-    <Card
-      sx={{
-        paddingLeft: "20px",
-        paddingRight: "20px",
-        // paddingTop: "50px",
-        // maxWidth: "800px",
-        height: "350px",
-        boxShadow: 3,
-        borderRadius: 2,
-        // border: "solid black",
-      }}
-    >
-      <div style={{display:"flex",justifyContent:"end",alignItems:"center",}}>
-
-<div className="options" style={{marginRight:"5px",marginTop:"5px"}}>
-
-      {cardno + 1}
-</div>
-
-  {pairedman.map((memberId, index) => (
-        <div key={index} className="options" style={{ marginRight: '5px', marginTop: '5px' }}>
-          {memberId}
-        </div>
-      ))}
-   
-</div> 
-
-      
-
-      <div style={{display:"flex" ,width:"100%",}}>
-
-        <div style={{width:"60%",marginRight:"5px"}}>
-          <ToggleButtonGroup
-            value={tripType}
-            exclusive
-            onChange={handleTripTypeChange}
-            aria-label="trip type"
-            style={{ marginBottom: "20px" }}
-            fullWidth
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            alignItems: "center",
+          }}
+        >
+          <div
+            className="options"
+            style={{ marginRight: "5px", marginTop: "5px" }}
           >
-            <ToggleButton value="Both">Both</ToggleButton>
-            <ToggleButton value="Onward">Onward</ToggleButton>
-            <ToggleButton value="Return">Return</ToggleButton>
+            {cardno + 1}
+          </div>
 
-            
-          </ToggleButtonGroup>
-        </div>
-
-
-
-        
-
-        <div style={{width:"20%"}}>
-          <FormControl fullWidth>
-            <InputLabel   id="car-select-label">Eg: Bolero</InputLabel>
-            <Select 
-              labelId="car-select-label"
-              id="car-select" 
-              sx={{ height: 42 }}
-              //  value={carType}
-              //  onChange={handleCarTypeChange}
-              // disabled={tripType !== 'Return'}
+          {pairedman && (
+            <div
+              className="options"
+              style={{ marginRight: "5px", marginTop: "5px" }}
             >
-              <MenuItem value="Bolero">Bolero</MenuItem>
-              <MenuItem value="Innova">Innova</MenuItem>
-              <MenuItem value="Swift">Swift</MenuItem>
-              <MenuItem value="Scorpio">Scorpio</MenuItem>
-            </Select>
-          </FormControl>
+              {pairedman}
+            </div>
+          )}
         </div>
-      </div>
 
-      <Grid container spacing={2} alignItems="center">
-        {/* Left Side Input Fields */}
-        <Grid item xs={6}>
-          <TextField
-            label="Date and Time"
-            type="datetime-local"
-            fullWidth
-            disabled={!isLeftEnabled}
-            InputLabelProps={{
-              shrink: true,
-            }}
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={12}>
+            <FormLabel>Arrival Time</FormLabel>
+
+            <TextField
+              style={{ width: "100%" }}
+              // label="Select Date"
+              type="date"
+              value={item.arrivaltime}
+              onChange={(e) => onInputChange("arrivaltime", e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={12}>
+            <FormLabel>Arrival Time</FormLabel>
+
+            <TextField
+              style={{ width: "100%" }}
+              // label="Select Date"
+              type="date"
+              value={item.arrivaltime}
+              onChange={(e) => onInputChange("arrivaltime", e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={12}>
+            <FormControl fullWidth>
+              <FormLabel>Accomodaton venue</FormLabel>
+              <TextField
+                select
+                variant="outlined"
+                value={item.accomodationvenue}
+                onChange={(e) =>
+                  onInputChange("accomodationvenue", e.target.value)
+                }
+              >
+                <MenuItem value="Guest House">guest House</MenuItem>
+                <MenuItem value="hostel">hostel</MenuItem>
+                <MenuItem value="room">room</MenuItem>
+              </TextField>
+            </FormControl>
+          </Grid>
+        </Grid>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
+          <DialogActions>
+            <div className="cardsarrow" onClick={onPrev}>
+              <IoIosArrowBack />
+            </div>
+
+            <Button style={{ height: "35px", color: "white" }}>save</Button>
+
+            <div className="cardsarrow" onClick={onNext}>
+              <IoIosArrowForward />
+            </div>
+          </DialogActions>
+        </Box>
+      </Card>
+    );
+  }
+);
+const ListItemT = React.memo(
+  ({
+    cardno,
+    item,
+    onPrev,
+    onNext,
+    onInputChange,
+    handleClose,
+    groups,
+    initialGuests,
+    // isRightEnabled,
+    // isLeftEnabled
+  }) => {
+    const [tripType, setTripType] = useState("Both");
+
+    const handleTripTypeChange = (event, newTripType) => {
+      if (newTripType !== null) {
+        setTripType(newTripType);
+      }
+    };
+    const isLeftEnabled = tripType === "Both" || tripType === "Onward";
+    const isRightEnabled = tripType === "Both" || tripType === "Return";
+    const pairedman = findGroupMembers(cardno + 1, groups);
+    // console.log(tripType)
+    return (
+      <Card
+        sx={{
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          // paddingTop: "50px",
+          // maxWidth: "800px",
+          height: "350px",
+          boxShadow: 3,
+          borderRadius: 2,
+          // border: "solid black",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            alignItems: "center",
+          }}
+        >
+          <div
+            className="options"
+            style={{ marginRight: "5px", marginTop: "5px" }}
+          >
+            {cardno + 1}
+          </div>
+
+          {pairedman.map((memberId, index) => (
+            <div
+              key={index}
+              className="options"
+              style={{ marginRight: "5px", marginTop: "5px" }}
+            >
+              {memberId}
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", width: "100%" }}>
+          <div style={{ width: "60%", marginRight: "5px" }}>
+            <ToggleButtonGroup
+              value={tripType}
+              exclusive
+              onChange={handleTripTypeChange}
+              aria-label="trip type"
+              style={{ marginBottom: "20px" }}
+              fullWidth
+            >
+              <ToggleButton value="Both">Both</ToggleButton>
+              <ToggleButton value="Onward">Onward</ToggleButton>
+              <ToggleButton value="Return">Return</ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+
+          <div style={{ width: "20%" }}>
+            <FormControl fullWidth>
+              <InputLabel id="car-select-label">Eg: Bolero</InputLabel>
+              <Select
+                labelId="car-select-label"
+                id="car-select"
+                sx={{ height: 42 }}
+                //  value={carType}
+                //  onChange={handleCarTypeChange}
+                // disabled={tripType !== 'Return'}
+              >
+                <MenuItem value="Bolero">Bolero</MenuItem>
+                <MenuItem value="Innova">Innova</MenuItem>
+                <MenuItem value="Swift">Swift</MenuItem>
+                <MenuItem value="Scorpio">Scorpio</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+
+        <Grid container spacing={2} alignItems="center">
+          {/* Left Side Input Fields */}
+          <Grid item xs={6}>
+            <TextField
+              label="Date and Time"
+              type="datetime-local"
+              fullWidth
+              disabled={!isLeftEnabled}
+              InputLabelProps={{
+                shrink: true,
+              }}
               // InputProps={{
               //   startAdornment: (
               //     <IconButton>
@@ -538,106 +569,105 @@ const ListItemT = React.memo(({
               //     </IconButton>
               //   ),
               // }}
-          />
-          <TextField
-            label="Location"
-            fullWidth
-            disabled={!isLeftEnabled}
-            // InputProps={{
-            //   startAdornment: (
-            //     <IconButton>
-            //       <LocationOn />
-            //     </IconButton>
-            //   ),
-            // }}
-            style={{ marginTop: "10px" }}
-          />
-          <TextField
-            label="Location"
-            fullWidth
-            disabled={!isLeftEnabled}
-            // InputProps={{
-            //   startAdornment: (
-            //     <IconButton>
-            //       <LocationOn />
-            //     </IconButton>
-            //   ),
-            // }}
-            style={{ marginTop: "10px" }}
-          />
+            />
+            <TextField
+              label="Location"
+              fullWidth
+              disabled={!isLeftEnabled}
+              // InputProps={{
+              //   startAdornment: (
+              //     <IconButton>
+              //       <LocationOn />
+              //     </IconButton>
+              //   ),
+              // }}
+              style={{ marginTop: "10px" }}
+            />
+            <TextField
+              label="Location"
+              fullWidth
+              disabled={!isLeftEnabled}
+              // InputProps={{
+              //   startAdornment: (
+              //     <IconButton>
+              //       <LocationOn />
+              //     </IconButton>
+              //   ),
+              // }}
+              style={{ marginTop: "10px" }}
+            />
+          </Grid>
+
+          {/* Right Side Input Fields */}
+          <Grid item xs={6}>
+            <TextField
+              label="Date and Time"
+              type="datetime-local"
+              fullWidth
+              disabled={!isRightEnabled}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              // InputProps={{
+              //   startAdornment: (
+              //     <IconButton>
+              //       <CalendarToday />
+              //     </IconButton>
+              //   ),
+              // }}
+            />
+            <TextField
+              label="Location"
+              fullWidth
+              disabled={!isRightEnabled}
+              // InputProps={{
+              //   endAdornment: (
+              //     <IconButton>
+              //       <LocationOn />
+              //     </IconButton>
+              //   ),
+              // }}
+              style={{ marginTop: "10px" }}
+            />
+            <TextField
+              label="Location"
+              fullWidth
+              disabled={!isRightEnabled}
+              // InputProps={{
+              //   startAdornment: (
+              //     <IconButton>
+              //       <LocationOn />
+              //     </IconButton>
+              //   ),
+              // }}
+              style={{ marginTop: "10px" }}
+            />
+          </Grid>
         </Grid>
 
-        {/* Right Side Input Fields */}
-        <Grid item xs={6}>
-          <TextField
-            label="Date and Time"
-            type="datetime-local"
-            fullWidth
-            disabled={!isRightEnabled}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            // InputProps={{
-            //   startAdornment: (
-            //     <IconButton>
-            //       <CalendarToday />
-            //     </IconButton>
-            //   ),
-            // }}
-          />
-          <TextField
-            label="Location"
-            fullWidth
-            disabled={!isRightEnabled}
-            // InputProps={{
-            //   endAdornment: (
-            //     <IconButton>
-            //       <LocationOn />
-            //     </IconButton>
-            //   ),
-            // }}
-            style={{ marginTop: "10px" }}
-          />
-          <TextField
-            label="Location"
-            fullWidth
-            
-            disabled={!isRightEnabled}
-            // InputProps={{
-            //   startAdornment: (
-            //     <IconButton>
-            //       <LocationOn />
-            //     </IconButton>
-            //   ),
-            // }}
-            style={{ marginTop: "10px" }}
-          />
-        </Grid>
-      </Grid>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
+          <DialogActions>
+            <div className="cardsarrow" onClick={onPrev}>
+              <IoIosArrowBack />
+            </div>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <DialogActions>
-          <div className="cardsarrow" onClick={onPrev}>
-          <IoIosArrowBack />
-          </div>
-        
-          <Button style={{height:"35px", color:"white"}} >save</Button>
+            <Button style={{ height: "35px", color: "white" }}>save</Button>
 
-          <div className="cardsarrow" onClick={onNext}>
-            <IoIosArrowForward  />
-          </div>
-
-        </DialogActions>
-      </Box>
-    </Card>
-  );
-});
+            <div className="cardsarrow" onClick={onNext}>
+              <IoIosArrowForward />
+            </div>
+          </DialogActions>
+        </Box>
+      </Card>
+    );
+  }
+);
 const maxVisibleSteps = 3;
 
 const AccomodationPopup = ({ onClose, onSave }) => {
@@ -720,7 +750,7 @@ const AccomodationPopup = ({ onClose, onSave }) => {
     );
     setCards(initialGuests);
   };
-  
+
   ////////////////
 
   const [guestData, setGuestData] = useState(initialGuests);
@@ -812,7 +842,10 @@ const AccomodationPopup = ({ onClose, onSave }) => {
 
   return (
     <div className="popup-overlay">
-      <div className="popup-content accomodation" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="popup-content accomodation"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* <div
           style={{
             border: "solid green",
@@ -822,256 +855,233 @@ const AccomodationPopup = ({ onClose, onSave }) => {
             alignItems: "center",
           }}
         > */}
-          <Box  sx={{ width: "100%" }}>
-            <Box  
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                // alignItems:"center",
-                marginBottom: "20px",
-                height:"180px"
-              }}
+        <Box sx={{ width: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              // alignItems:"center",
+              marginBottom: "20px",
+              height: "180px",
+            }}
+          >
+            <div
+              className="arrow"
+              onClick={handleBack}
+              disabled={startStep === 0}
             >
-              <div className="arrow" onClick={handleBack} disabled={startStep === 0}>
-                
-                <img src="/images/icons_images/arrow_right.png" className="iconarrow" alt="" />
-                
-              </div>
+              <img
+                src="/images/icons_images/arrow_right.png"
+                className="iconarrow"
+                alt=""
+              />
+            </div>
 
+            <Stepper
+              alternativeLabel
+              nonLinear
+              activeStep={-1}
+              sx={{ flex: 1 }}
+              // className="sus"
+            >
+              {cards
+                .slice(startStep, startStep + maxVisibleSteps)
+                .map((guest, index) => (
+                  <Step className="sus" key={guest.id}>
+                    <StepLabel
+                      StepIconComponent={() => (
+                        <div className="ctd">{startStep + index + 1}</div>
+                      )}
+                    >
+                      <div className="guestNames">
+                        <img
+                          className="guestImage"
+                          src="images/icons_images/bordername.png"
+                          alt=""
+                        />
 
-              <Stepper 
-                alternativeLabel
-                nonLinear
-                activeStep={-1}
-                sx={{ flex: 1 }}
-                // className="sus"
-              >
-                {cards
-                  .slice(startStep, startStep + maxVisibleSteps)
-                  .map((guest, index) => (
-
-                    <Step className="sus" key={guest.id}>
-
-
-                      <StepLabel 
-                        StepIconComponent={() => (
-                          <div className="ctd">{startStep + index + 1}</div>
-                        )}
-                      >
-                        
-                        <div className="guestNames">
-                          <img className="guestImage" src="images/icons_images/bordername.png" alt="" />
-                        
                         <p className="guestname">
-                        {guest.salutation} . {guest.firstName}
+                          {guest.salutation} . {guest.firstName}
                         </p>
+                      </div>
+
+                      {getUnpairableGroup(guest.id).length > 0 && (
+                        <div
+                          className="undoalone"
+                          onClick={() =>
+                            unpairGroup(getUnpairableGroup(guest.id))
+                          }
+                        >
+                          <Undo />
+                          Unpair
+                          <BsFillPeopleFill />
                         </div>
-                    
-                        {getUnpairableGroup(guest.id).length > 0 && (
-                          
-                            <div
-                              className="undoalone"
-                              onClick={() =>
-                                unpairGroup(getUnpairableGroup(guest.id))
-                              }
-                              >
-                              <Undo />
-                              Unpair
-                              <BsFillPeopleFill /> 
-                            </div>
-                        
-                        )}
+                      )}
 
-
-                        {aloneGuests.includes(guest.id) && (
-                        
-                            <div
-                            className="undoalone"
-                              onClick={() => handleUndoAlone(guest.id)}
-                            >
-                              <Undo /> 
-                              undo
-                              <IoPerson />
-                            </div>
-                        
-                        )}
-
-
-                      </StepLabel>
-                      <Box
-                      
-                        sx={{
-    
-    
-                          textAlign: "center",
-                        
-                        }}
-                      >
-                       
-
-                        {guestData.some((g) => g.id === guest.id) && (
-                          <>
-                            <Grid container spacing={1} justifyContent="center">
-                              <Grid item>
-
-
-                                <div className="pair"
-                                 
-                                  onClick={() =>
-                                    handleSelectGuestForPairing(guest.id)
-                                  }
-                                  sx={{
+                      {aloneGuests.includes(guest.id) && (
+                        <div
+                          className="undoalone"
+                          onClick={() => handleUndoAlone(guest.id)}
+                        >
+                          <Undo />
+                          undo
+                          <IoPerson />
+                        </div>
+                      )}
+                    </StepLabel>
+                    <Box
+                      sx={{
+                        textAlign: "center",
+                      }}
+                    >
+                      {guestData.some((g) => g.id === guest.id) && (
+                        <>
+                          <Grid container spacing={1} justifyContent="center">
+                            <Grid item>
+                              <div
+                                className="pair"
+                                onClick={() =>
+                                  handleSelectGuestForPairing(guest.id)
+                                }
+                                sx={{
+                                  backgroundColor:
+                                    selectedGuest === guest.id
+                                      ? "lightblue"
+                                      : "transparent",
+                                  borderColor:
+                                    selectedGuest === guest.id
+                                      ? "blue"
+                                      : "grey",
+                                  color:
+                                    selectedGuest === guest.id
+                                      ? "blue"
+                                      : "black",
+                                  "&:hover": {
                                     backgroundColor:
                                       selectedGuest === guest.id
                                         ? "lightblue"
                                         : "transparent",
-                                    borderColor:
-                                      selectedGuest === guest.id
-                                        ? "blue"
-                                        : "grey",
-                                    color:
-                                      selectedGuest === guest.id
-                                        ? "blue"
-                                        : "black",
-                                    "&:hover": {
-                                      backgroundColor:
-                                        selectedGuest === guest.id
-                                          ? "lightblue"
-                                          : "transparent",
-                                    },
-                                  }}
-                                >
-                                 <BsFillPeopleFill /> 
-                                </div>
-
-                                
-                              </Grid>
-
-                              <Grid item>
-                                <div className="alone"
-                                  variant="outlined"
-                                  size="small"
-                                  color="warning"
-                                  startIcon={<PersonOutline />}
-                                  onClick={() => handleStayAlone(guest.id)}
-                                >
-                                  <IoPerson />
-                                </div>
-                              </Grid>
+                                  },
+                                }}
+                              >
+                                <BsFillPeopleFill />
+                              </div>
                             </Grid>
 
-                            {selectedGuest === guest.id && (  
-                              <Box sx={{ marginTop: "10px" }}>
-                               
+                            <Grid item>
+                              <div
+                                className="alone"
+                                variant="outlined"
+                                size="small"
+                                color="warning"
+                                startIcon={<PersonOutline />}
+                                onClick={() => handleStayAlone(guest.id)}
+                              >
+                                <IoPerson />
+                              </div>
+                            </Grid>
+                          </Grid>
 
-
-                                <Grid
-                                  container
-                                  spacing={1}
-                                  justifyContent="center"
-                                  // className="sus"
-                                >
-
-
-
-                                  {guestData
-                                    .filter(
-                                      (otherGuest) => otherGuest.id !== guest.id
-                                    )
-                                    .map((otherGuest) => (
-                                      <Grid item key={otherGuest.id}>
-                                        <div className="options"
-                                          variant="outlined"
-                                          size="small"
-                                          onClick={() =>
-                                            handlePairing(
-                                              guest.id,
-                                              otherGuest.id
-                                            )
-                                          }
-                                        >
-                                          {otherGuest.id}
-                                        </div>
-                                      </Grid>
-                                    ))}
-                                </Grid>
-                              </Box>
-                            )}
-                          </>
-                        )}
-                      </Box>
-                    </Step>
-                  ))}
-
-
-              </Stepper>
-
-
-
-
-
-
-              <div
-                onClick={handleNextx} className="arrow"
-                disabled={startStep + maxVisibleSteps >= initialGuests.length}
-              >
-                <img src="/images/icons_images/arrow_right.png" className="iconarrowR" alt="" />
-                {/* <ArrowForward /> */}
-              </div>
-            </Box>
-
-          
-          </Box>
-
-          <div className="boss"  >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-          
-                alignItems: "Center",
-                position: "relative",
-                width: "480px",
-                height: "350px",
-              }}
-            >
-              <CardStack >
-                {cards.map((item, index) => (
-                  <Box
-                    key={item.id}
-                    sx={{
-                      transform: `translateX(${(currentIndex - index) * -40}px) scale(${index === currentIndex ? 1 : 0.95})`,
-                      zIndex: cards.length - Math.abs(currentIndex - index),
-                      opacity: currentIndex === index ? 1 : 0.5,
-                      transition: "transform 0.3s linear, opacity 0.3s ease",
-                      
-                    }}
-                  >
-                    <ListItemA
-                      item={item}
-                      cardno={index}
-                      onPrev={handlePrev}
-                      onNext={handleNext}
-                      groups={groups}
-                      initialGuests={initialGuests}
-                      handleChangeColor={handleSubmit}
-                      handleClose={onClose}
-                      onInputChange={(field, value) =>
-                        handleInputChange(item.id, field, value)
-                      }
-                    />
-                  </Box>
+                          {selectedGuest === guest.id && (
+                            <Box sx={{ marginTop: "10px" }}>
+                              <Grid
+                                container
+                                spacing={1}
+                                justifyContent="center"
+                                // className="sus"
+                              >
+                                {guestData
+                                  .filter(
+                                    (otherGuest) => otherGuest.id !== guest.id
+                                  )
+                                  .map((otherGuest) => (
+                                    <Grid item key={otherGuest.id}>
+                                      <div
+                                        className="options"
+                                        variant="outlined"
+                                        size="small"
+                                        onClick={() =>
+                                          handlePairing(guest.id, otherGuest.id)
+                                        }
+                                      >
+                                        {otherGuest.id}
+                                      </div>
+                                    </Grid>
+                                  ))}
+                              </Grid>
+                            </Box>
+                          )}
+                        </>
+                      )}
+                    </Box>
+                  </Step>
                 ))}
-              </CardStack>
-            </Box>
-          </div>
+            </Stepper>
+
+            <div
+              onClick={handleNextx}
+              className="arrow"
+              disabled={startStep + maxVisibleSteps >= initialGuests.length}
+            >
+              <img
+                src="/images/icons_images/arrow_right.png"
+                className="iconarrowR"
+                alt=""
+              />
+              {/* <ArrowForward /> */}
+            </div>
+          </Box>
+        </Box>
+
+        <div className="boss">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+
+              alignItems: "Center",
+              position: "relative",
+              width: "480px",
+              height: "350px",
+            }}
+          >
+            <CardStack>
+              {cards.map((item, index) => (
+                <Box
+                  key={item.id}
+                  sx={{
+                    transform: `translateX(${
+                      (currentIndex - index) * -40
+                    }px) scale(${index === currentIndex ? 1 : 0.95})`,
+                    zIndex: cards.length - Math.abs(currentIndex - index),
+                    opacity: currentIndex === index ? 1 : 0.5,
+                    transition: "transform 0.3s linear, opacity 0.3s ease",
+                  }}
+                >
+                  <ListItemA
+                    item={item}
+                    cardno={index}
+                    onPrev={handlePrev}
+                    onNext={handleNext}
+                    groups={groups}
+                    initialGuests={initialGuests}
+                    handleChangeColor={handleSubmit}
+                    handleClose={onClose}
+                    onInputChange={(field, value) =>
+                      handleInputChange(item.id, field, value)
+                    }
+                  />
+                </Box>
+              ))}
+            </CardStack>
+          </Box>
+        </div>
         <div className="popup-buttons">
           <button onClick={handleSubmit}>Confirm</button>
           {/* <button onClick={onClose}>Cancel</button> */}
         </div>
-        </div>
-
       </div>
+    </div>
     // </div>
   );
 };
@@ -1160,8 +1170,6 @@ const TransportPopup = ({ onClose, onSave }) => {
     );
     setCards(initialGuests);
   };
-
-  
 
   ////////////
 
@@ -1269,14 +1277,14 @@ const TransportPopup = ({ onClose, onSave }) => {
   const handleLeaveGroup = (guestId) => {
     // Find the group that the guest is leaving
     let groupLeft = null;
-  
+
     setGroups((prevGroups) => {
       return prevGroups
         .map((group) => {
           if (group.includes(guestId)) {
             // If the group contains the guest, remove them from the group
             groupLeft = group.filter((id) => id !== guestId);
-  
+
             // If the group has one or fewer members, dismantle the group
             return groupLeft.length <= 1 ? [] : groupLeft;
           }
@@ -1284,27 +1292,26 @@ const TransportPopup = ({ onClose, onSave }) => {
         })
         .filter((group) => group.length > 0); // Remove any empty groups
     });
-  
+
     if (groupLeft && groupLeft.length > 0) {
       // Add the remaining members of the group back to the available guests
-      setGuestData((prevGuestData) =>
-        prevGuestData
-          .filter((g) => !groupLeft.includes(g.id)) // Remove remaining group members from guestData
-          .concat(groupLeft.map((id) => initialGuests.find((g) => g.id === id))) // Add remaining members back to guestData
+      setGuestData(
+        (prevGuestData) =>
+          prevGuestData
+            .filter((g) => !groupLeft.includes(g.id)) // Remove remaining group members from guestData
+            .concat(
+              groupLeft.map((id) => initialGuests.find((g) => g.id === id))
+            ) // Add remaining members back to guestData
       );
     }
-  
+
     // Finally, add the guest who left the group back to the available guests
     setGuestData((prevGuestData) => [
       ...prevGuestData,
       initialGuests.find((g) => g.id === guestId),
     ]);
   };
-  
-  
 
-
-  
   // Function to handle the previous button click
   const handlePrev = () => {
     setVisibleStart((prev) => Math.max(prev - 1, 0));
@@ -1339,207 +1346,230 @@ const TransportPopup = ({ onClose, onSave }) => {
 
   return (
     <div className="popup-overlay">
-      <div className="popup-content transport" onClick={(e) => e.stopPropagation()}>
-
-
-
+      <div
+        className="popup-content transport"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* <Box  sx={{ width: "100%", padding: "20px" }}> */}
-        <Box className="a" sx={{ display: 'flex', alignItems: 'center' }}>
-        {/* <IconButton onClick={handlePrev} disabled={visibleStart === 0}>
+        <Box className="a" sx={{ display: "flex", alignItems: "center" }}>
+          {/* <IconButton onClick={handlePrev} disabled={visibleStart === 0}>
           <ArrowBack />
         </IconButton> */}
 
-        <div
-                onClick={handlePrev} className="arrow" disabled={visibleStart === 0}
-              >
-                <img src="/images/icons_images/arrow_right.png" className="iconarrow" alt="" />
-                {/* <ArrowForward /> */}
-              </div>
-
-
-
-
-        <Stepper alternativeLabel nonLinear activeStep={activeStep} sx={{ flexGrow: 1 }}>
-          {initialGuests.slice(visibleStart, visibleStart + visibleCount).map((guest, index) => {
-            const inGroup = findGroupContainingGuest(guest.id);
-            const isAlone = aloneGuests.includes(guest.id);
-            const groupMembers = inGroup ? findGroupContainingGuest(guest.id) : [];
-
-            return (
-              <Step  key={guest.id}>
-                <StepLabel
-                  StepIconComponent={(props) => (
-                    <Box
-                      {...props}
-                      sx={{
-                        ...props.sx,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 35,
-                        height: 35,
-                        borderRadius: '11px',
-                        boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                        borderColor: 'primary.main',
-                        fontSize: '14px',
-                        color: 'primary.main',
-                       
-                      }}
-                    >
-                      {guest.id}
-                    </Box>
-                  )}
-                >
-<div className="guestNames">
-                          <img className="guestImage" src="images/icons_images/bordername.png" alt="" />
-                        
-                        <p className="guestname">
-                        {guest.salutation} . {guest.firstName}
-                        </p>
-                        </div>
-
-
-
-
-                </StepLabel>
-
-
-
-                <Box sx={{ textAlign: 'center' }}>
-  <Grid container spacing={1} justifyContent="center">
-    {/* Pair button should only be visible if the guest is not alone */}
-    {!isAlone && (
-      <Grid item>
-        <div className="pair"
-          
-          onClick={() => togglePairingOptions(guest.id)}
-        ><BsFillPeopleFill /> 
-        </div>
-      </Grid>
-    )}
-
-    {/* Stay Alone button always visible */}
-    <Grid item>
-      {!isAlone ? (
-        <div className="alone"
-         
-         
-          onClick={() => handleStayAlone(guest.id)}
+          <div
+            onClick={handlePrev}
+            className="arrow"
+            disabled={visibleStart === 0}
           >
-         <PersonOutline />
-          
-        </div>
-      ) : (
-        <div
-          className="undoalone"
-        onClick={() => handleLeaveAlone(guest.id)}
-        >
-        <Undo />
-          Undo Alone
-        </div>
-      )}
-    </Grid>
-  </Grid>
+            <img
+              src="/images/icons_images/arrow_right.png"
+              className="iconarrow"
+              alt=""
+            />
+            {/* <ArrowForward /> */}
+          </div>
 
-  {pairingOptionsVisible === guest.id && !isAlone && (
-    <Box sx={{ marginTop: '10px' }}>
-      {!inGroup && (
-        <Grid container spacing={1} justifyContent="center">
-          {guestData
-            .filter(otherGuest => otherGuest.id !== guest.id)
-            .map(otherGuest => (
-              <Grid item key={otherGuest.id}>
-                <div
-                   className="options"
-                  
-                  onClick={() => handlePairing(guest.id, otherGuest.id)}
-                >
-                
-                  <Typography variant="caption" sx={{ display: 'block', marginTop: '2px' }}>
-                     {otherGuest.id}
-                  </Typography>
-                </div>
-              </Grid>
-            ))}
+          <Stepper
+            alternativeLabel
+            nonLinear
+            activeStep={activeStep}
+            sx={{ flexGrow: 1 }}
+          >
+            {initialGuests
+              .slice(visibleStart, visibleStart + visibleCount)
+              .map((guest, index) => {
+                const inGroup = findGroupContainingGuest(guest.id);
+                const isAlone = aloneGuests.includes(guest.id);
+                const groupMembers = inGroup
+                  ? findGroupContainingGuest(guest.id)
+                  : [];
 
-          {groups
-            .filter(group => !group.includes(guest.id))
-            .map((group, index) => (
-              <Grid item key={index}>
+                return (
+                  <Step key={guest.id}>
+                    <StepLabel
+                      StepIconComponent={(props) => (
+                        <Box
+                          {...props}
+                          sx={{
+                            ...props.sx,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: 35,
+                            height: 35,
+                            borderRadius: "11px",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+                            borderColor: "primary.main",
+                            fontSize: "14px",
+                            color: "primary.main",
+                          }}
+                        >
+                          {guest.id}
+                        </Box>
+                      )}
+                    >
+                      <div className="guestNames">
+                        <img
+                          className="guestImage"
+                          src="images/icons_images/bordername.png"
+                          alt=""
+                        />
 
+                        <p className="guestname">
+                          {guest.salutation} . {guest.firstName}
+                        </p>
+                      </div>
+                    </StepLabel>
 
-                <div
-                  className="optionsjoin"
-                  onClick={() => handleJoinGroup(guest.id, group)}
-                  >
-                  {/* <GroupAdd /> */}
-                  Join - 
-                  <Typography variant="caption">
-                    {group.map(id => {
-                      const member = initialGuests.find(g => g.id === id);
-                      return member ? ` ${id}` : '';
-                    }).join(' , ')}
-                  </Typography>
-                </div>
+                    <Box sx={{ textAlign: "center" }}>
+                      <Grid container spacing={1} justifyContent="center">
+                        {/* Pair button should only be visible if the guest is not alone */}
+                        {!isAlone && (
+                          <Grid item>
+                            <div
+                              className="pair"
+                              onClick={() => togglePairingOptions(guest.id)}
+                            >
+                              <BsFillPeopleFill />
+                            </div>
+                          </Grid>
+                        )}
 
+                        {/* Stay Alone button always visible */}
+                        <Grid item>
+                          {!isAlone ? (
+                            <div
+                              className="alone"
+                              onClick={() => handleStayAlone(guest.id)}
+                            >
+                              <PersonOutline />
+                            </div>
+                          ) : (
+                            <div
+                              className="undoalone"
+                              onClick={() => handleLeaveAlone(guest.id)}
+                            >
+                              <Undo />
+                              Undo Alone
+                            </div>
+                          )}
+                        </Grid>
+                      </Grid>
 
-              </Grid>
-            ))}
-        </Grid>
-      )}
+                      {pairingOptionsVisible === guest.id && !isAlone && (
+                        <Box sx={{ marginTop: "10px" }}>
+                          {!inGroup && (
+                            <Grid container spacing={1} justifyContent="center">
+                              {guestData
+                                .filter(
+                                  (otherGuest) => otherGuest.id !== guest.id
+                                )
+                                .map((otherGuest) => (
+                                  <Grid item key={otherGuest.id}>
+                                    <div
+                                      className="options"
+                                      onClick={() =>
+                                        handlePairing(guest.id, otherGuest.id)
+                                      }
+                                    >
+                                      <Typography
+                                        variant="caption"
+                                        sx={{
+                                          display: "block",
+                                          marginTop: "2px",
+                                        }}
+                                      >
+                                        {otherGuest.id}
+                                      </Typography>
+                                    </div>
+                                  </Grid>
+                                ))}
 
-      {inGroup && (
-        <Box>
-          <Typography variant="body2" sx={{ marginBottom: '5px' }}>
-            Group Members:
-          </Typography>
-          <Grid container spacing={1} justifyContent="center">
-            {groupMembers.map((memberId) => {
-              const member = initialGuests.find(g => g.id === memberId);
-              return (
-                <div  item key={memberId}>
-                  <Chip style={{marginRight:"4px"}}  label={`  ${member.id}`} />
-                </div>
-              );
-            })}
-              <div
-                className="undoalone"
-                onClick={() => handleLeaveGroup(guest.id)}
-                >
-                <GroupRemove />
-                Leave Group
-              </div>
-          </Grid>
-         
-            
-            
-        
+                              {groups
+                                .filter((group) => !group.includes(guest.id))
+                                .map((group, index) => (
+                                  <Grid item key={index}>
+                                    <div
+                                      className="optionsjoin"
+                                      onClick={() =>
+                                        handleJoinGroup(guest.id, group)
+                                      }
+                                    >
+                                      {/* <GroupAdd /> */}
+                                      Join -
+                                      <Typography variant="caption">
+                                        {group
+                                          .map((id) => {
+                                            const member = initialGuests.find(
+                                              (g) => g.id === id
+                                            );
+                                            return member ? ` ${id}` : "";
+                                          })
+                                          .join(" , ")}
+                                      </Typography>
+                                    </div>
+                                  </Grid>
+                                ))}
+                            </Grid>
+                          )}
+
+                          {inGroup && (
+                            <Box>
+                              <Typography
+                                variant="body2"
+                                sx={{ marginBottom: "5px" }}
+                              >
+                                Group Members:
+                              </Typography>
+                              <Grid
+                                container
+                                spacing={1}
+                                justifyContent="center"
+                              >
+                                {groupMembers.map((memberId) => {
+                                  const member = initialGuests.find(
+                                    (g) => g.id === memberId
+                                  );
+                                  return (
+                                    <div item key={memberId}>
+                                      <Chip
+                                        style={{ marginRight: "4px" }}
+                                        label={`  ${member.id}`}
+                                      />
+                                    </div>
+                                  );
+                                })}
+                                <div
+                                  className="undoalone"
+                                  onClick={() => handleLeaveGroup(guest.id)}
+                                >
+                                  <GroupRemove />
+                                  Leave Group
+                                </div>
+                              </Grid>
+                            </Box>
+                          )}
+                        </Box>
+                      )}
+                    </Box>
+                  </Step>
+                );
+              })}
+          </Stepper>
+
+          <div
+            onClick={handleNext}
+            disabled={visibleStart + visibleCount >= initialGuests.length}
+          >
+            <img
+              src="/images/icons_images/arrow_right.png"
+              className="iconarrowR"
+              alt=""
+            />
+            {/* <ArrowForward /> */}
+          </div>
         </Box>
-      )}
-    </Box>
-  )}
-</Box>
-
-
-              </Step>
-            );
-          })}
-        </Stepper>
-
-
-
-
-
-
-        <div
-                onClick={handleNext} disabled={visibleStart + visibleCount >= initialGuests.length}
-              >
-                <img src="/images/icons_images/arrow_right.png" className="iconarrowR" alt="" />
-                {/* <ArrowForward /> */}
-              </div>
-
-
-      </Box>
         {/* </Box> */}
 
         <div className="boss">
@@ -1549,22 +1579,23 @@ const TransportPopup = ({ onClose, onSave }) => {
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
-              top:"80px",
+              top: "80px",
               // border:"solid black",
               width: "700px",
               height: "350px",
             }}
           >
-            <CardStack >
+            <CardStack>
               {cards.map((item, index) => (
                 <Box
                   key={item.id}
                   sx={{
-                    transform: `translateX(${(currentIndex - index) * -30}px) scale(${index === currentIndex ? 1 : 0.95})`,
+                    transform: `translateX(${
+                      (currentIndex - index) * -30
+                    }px) scale(${index === currentIndex ? 1 : 0.95})`,
                     zIndex: cards.length - Math.abs(currentIndex - index),
                     opacity: currentIndex === index ? 1 : 0.5,
                     transition: "transform 0.3s linear, opacity 0.3s ease",
-      
                   }}
                 >
                   <ListItemT
@@ -1606,6 +1637,22 @@ const EventPopup = ({ onClose, onSave }) => {
     assigned_to: "",
   });
 
+  console.log(formData);
+  const [minDate, setMinDate] = useState("");
+
+  useEffect(() => {
+    // Get current date and time
+    const now = new Date();
+
+    // Add one day to the current date
+    now.setDate(now.getDate() + 1);
+
+    // Format the date to 'YYYY-MM-DDTHH:MM'
+    const formattedDate = now.toISOString().slice(0, 16);
+
+    setMinDate(formattedDate);
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -1626,20 +1673,18 @@ const EventPopup = ({ onClose, onSave }) => {
       end_at: formattedEndDate,
     };
 
-    axios;
+    // axios
     //   .post("http://localhost:8000/post/eventform", FormattedFormData)
     //   .then((response) => {
-    //     console.log(FormattedFormData);
     //     console.log("Event saved:", response.data);
-    //     const id = response.data.event_id; // getting the insterted event_id from the backend.
-
-    alert("Event Data fetched to database table successfully\n event_id: ");
-    onSave(); // Trigger the color change
-    onClose();
+    //     alert("Event Data fetched to database table successfully\n event_id: " + response.data.event_id);
+    //     onSave(); // Trigger the color change
+    //     onClose();
     //   })
     //   .catch((error) => {
     //     console.error("Error saving event:", error);
     //   });
+    onSave();
   };
 
   const eventTypes = [
@@ -1655,43 +1700,63 @@ const EventPopup = ({ onClose, onSave }) => {
 
   return (
     <div className="popup-overlay">
-      <div
-        className="popup-content"
-        onClick={(e) => e.stopPropagation()}
-        style={{ width: "40%", height: "68%" }}
-      >
+      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <h2>Register an Event</h2>
         <form className="event-form">
-          <label htmlFor="event_name">Name of the event</label>
-          <input
-            id="event_name"
-            name="event_name"
-            type="text"
-            value={formData.event_name}
-            onChange={handleChange}
-            placeholder="Event Name"
-          />
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label htmlFor="event_name">Name of the event</label>
+            <input
+              id="event_name"
+              name="event_name"
+              type="text"
+              value={formData.event_name}
+              onChange={handleChange}
+              placeholder="Event Name"
+              style={{ width: "50%" }}
+            />
+          </div>
           <div className="datebox">
-            <label htmlFor="start_at">Start</label>
-            <Input
-              placeholder="Select Date and Time"
-              size="md"
-              type="datetime-local"
-              id="start_at"
-              name="start_at"
-              value={formData.start_at}
-              onChange={handleChange}
-            />
-            <label htmlFor="end_at">End</label>
-            <Input
-              placeholder="Select Date and Time"
-              size="md"
-              type="datetime-local"
-              id="end_at"
-              name="end_at"
-              value={formData.end_at}
-              onChange={handleChange}
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+              }}
+            >
+              <label htmlFor="start_at">Start</label>
+              <input
+                style={{ width: "60%" }}
+                placeholder="Select Date and Time"
+                // size="md"
+                type="datetime-local"
+                id="start_at"
+                name="start_at"
+                value={formData.start_at}
+                onChange={handleChange}
+                min={minDate} // Disable today and past dates for start_at
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+              }}
+            >
+              <label htmlFor="end_at">End</label>
+              <input
+                placeholder="Select Date and Time"
+                // size="md"
+                style={{ width: "60%" }}
+                type="datetime-local"
+                id="end_at"
+                name="end_at"
+                value={formData.end_at}
+                onChange={handleChange}
+                min={minDate} // Disable today and past dates for end_at
+              />
+            </div>
           </div>
           <label>Type of Event</label>
           <div className="event-type">
@@ -1709,8 +1774,8 @@ const EventPopup = ({ onClose, onSave }) => {
               </React.Fragment>
             ))}
           </div>
-          <div>
-            <label htmlFor="assigned_to">Assigned To</label>
+          <div style={{ display: "flex" }}>
+            <p style={{ width: "15%", paddingTop: "2%" }}>Assigned To</p>
             <input
               id="assigned_to"
               name="assigned_to"
@@ -1720,11 +1785,15 @@ const EventPopup = ({ onClose, onSave }) => {
               placeholder="Team Involved"
             />
           </div>
+          <div className="popup-buttons">
+            <button type="button" onClick={handleSubmit}>
+              Save
+            </button>
+            <button type="button" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
         </form>
-        <div className="popup-buttons">
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Cancel</button>
-        </div>
       </div>
     </div>
   );
@@ -1791,8 +1860,6 @@ const GuestPopup = ({ onClose, onSave }) => {
     setCards(newCards);
   };
 
-  
-
   const handleSubmit = () => {
     // axios
     //   .post("http://localhost:8000/event-booking/event", { eventName })
@@ -1827,16 +1894,17 @@ const GuestPopup = ({ onClose, onSave }) => {
             height: "500px",
           }}
         >
-          <CardStack >
+          <CardStack>
             {cards.map((item, index) => (
               <Box
                 key={item.id}
                 sx={{
-                  transform: `translateX(${(currentIndex - index) * -40}px) scale(${index === currentIndex ? 1 : 0.95})`,
-zIndex: cards.length - Math.abs(currentIndex - index),
-opacity: currentIndex === index ? 1 : 0.5,
-transition: "transform 0.3s linear, opacity 0.3s ease",
-
+                  transform: `translateX(${
+                    (currentIndex - index) * -30
+                  }px) scale(${index === currentIndex ? 1 : 0.95})`,
+                  zIndex: cards.length - Math.abs(currentIndex - index),
+                  opacity: currentIndex === index ? 1 : 0.5,
+                  transition: "transform 0.3s linear, opacity 0.3s ease",
                 }}
               >
                 <ListItem
@@ -1925,7 +1993,7 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
           value={value}
           onChange={handleInputChange(setter)}
           onBlur={handleBlur(value, setter)}
-          style={{ width: 70 }}
+          style={{ width: 100 }}
           inputProps={{
             step: 1,
             min: 0,
@@ -1996,7 +2064,7 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
           value={value}
           onChange={handleInputChange(setter)}
           onBlur={handleBlur(value, setter)}
-          style={{ width: 50, margin: "0 10px" }}
+          style={{ width: 55, margin: "0 10px" }}
           inputProps={{
             step: 1,
             min: 0,
@@ -2055,11 +2123,9 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
     <div className={`popup-overlay Card box  ${flipped ? "flipped" : ""}`}>
       <div
         className="popup-content card-front"
-        style={{ width: "30%" }}
+        style={{ width: "25%" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2>Participants Details</h2>
-
         <>
           <Typography variant="h5" gutterBottom>
             Participants Count
@@ -2069,9 +2135,8 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
             internalParticipants,
             setInternalParticipants
           )}
-          Count of External Participants
-          <br />
-          <br />
+          <p style={{ marginBottom: "15px" }}>Count of External Participants</p>
+
           {renderSlider("Count of Boys", boyscount, setboyscount)}
           {renderSlider("Count of Girls", girlsCount, setGirlsCount)}
           <div style={{ display: "flex", gap: "10%" }}>
@@ -2105,23 +2170,32 @@ const ParticipantsPopup = ({ onClose, onSave }) => {
         </div>
       </div>
 
-      <div className="card-back popup-content">
+      <div
+        className="card-back popup-content"
+        style={{ width: "25%" }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <p onClick={handleFlip}>car</p>
 
         {renderSlider("Count of Boys", Hboyscount, setHboyscount)}
 
         {renderSlider("Count of Boys", HgirlsCount, setHGirlsCount)}
-
-        {renderCounter(
-          "Count of Female Faculty",
-          HfemaleFacultyCount,
-          setHFemaleFacultyCount
-        )}
-        {renderCounter(
-          "Count of male Faculty",
-          HmaleFacultyCount,
-          setHMaleFacultyCount
-        )}
+        <div style={{ display: "flex", gap: "10%" }}>
+          {renderCounter(
+            "Count of Female Faculty",
+            HfemaleFacultyCount,
+            setHFemaleFacultyCount
+          )}
+          {renderCounter(
+            "Count of male Faculty",
+            HmaleFacultyCount,
+            setHMaleFacultyCount
+          )}
+        </div>
+        <div className="popup-buttons">
+          <button onClick={handleSubmit}>Save</button>
+          <button onClick={onClose}>Cancel</button>
+        </div>
       </div>
     </div>
   );
@@ -2131,7 +2205,7 @@ const VenuePopup = ({ onClose, onSave }) => {
   const [eventName, setEventName] = useState("");
   const [venueCount, setVenueCount] = useState(0);
   const [participantsCount, setParticipantsCount] = useState(0);
-  const [venueType, setVenueType] = useState("Classrooms");
+  const [selectedVenueTypes, setSelectedVenueTypes] = useState([]);
 
   const handleSliderChange = (setter) => (event, newValue) => {
     setter(newValue);
@@ -2158,11 +2232,15 @@ const VenuePopup = ({ onClose, onSave }) => {
   };
 
   const handleVenueTypeChange = (type) => {
-    setVenueType(type);
+    setSelectedVenueTypes((prevSelectedTypes) =>
+      prevSelectedTypes.includes(type)
+        ? prevSelectedTypes.filter((t) => t !== type)
+        : [...prevSelectedTypes, type]
+    );
   };
 
   const renderSliderWithCounter = (label, value, setter) => (
-    <div style={{ marginBottom: "20px" }}>
+    <div>
       <Typography variant="subtitle1">{label}</Typography>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <Slider
@@ -2175,14 +2253,14 @@ const VenuePopup = ({ onClose, onSave }) => {
           style={{ flexGrow: 1 }}
           valueLabelDisplay="auto"
         />
-        <IconButton onClick={handleDecrement(setter, value)}>
+        <div className="spbuttonsicon" onClick={handleDecrement(setter, value)}>
           <RemoveIcon />
-        </IconButton>
+        </div>
         <TextField
           value={value}
           onChange={handleInputChange(setter)}
           onBlur={handleBlur(value, setter)}
-          style={{ width: 70 }}
+          style={{ width: 85 }}
           inputProps={{
             step: 1,
             min: 0,
@@ -2202,9 +2280,9 @@ const VenuePopup = ({ onClose, onSave }) => {
             },
           }}
         />
-        <IconButton onClick={handleIncrement(setter, value)}>
+        <div className="spbuttonsicon" onClick={handleIncrement(setter, value)}>
           <AddIcon />
-        </IconButton>
+        </div>
       </div>
     </div>
   );
@@ -2218,8 +2296,10 @@ const VenuePopup = ({ onClose, onSave }) => {
           margin: "0 5px",
           cursor: "pointer",
           borderRadius: "4px",
-          backgroundColor: venueType === type ? "#3f51b5" : "#f0f0f0",
-          color: venueType === type ? "white" : "black",
+          backgroundColor: selectedVenueTypes.includes(type)
+            ? "#3f51b5"
+            : "#f0f0f0",
+          color: selectedVenueTypes.includes(type) ? "white" : "black",
           textAlign: "center",
         }}
       >
@@ -2243,11 +2323,7 @@ const VenuePopup = ({ onClose, onSave }) => {
 
   return (
     <div className="popup-overlay">
-      <div
-        className="popup-content"
-        style={{ width: "30%", height: "50%" }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <h2>Venue Details</h2>
         {renderSliderWithCounter("Venue Count", venueCount, setVenueCount)}
         <Typography variant="subtitle1">Venue Type</Typography>
@@ -2257,6 +2333,7 @@ const VenuePopup = ({ onClose, onSave }) => {
           {renderVenueTypeButton("Auditorium", "Auditorium")}
           {renderVenueTypeButton("Labs", "Labs")}
         </div>
+
         {renderSliderWithCounter(
           "Total Count of Participants",
           participantsCount,
@@ -2264,7 +2341,9 @@ const VenuePopup = ({ onClose, onSave }) => {
         )}
         <div className="popup-buttons">
           <button onClick={handleSubmit}>Save</button>
-          <button onClick={onClose}>Cancel</button>
+          <button onClick={onClose} style={{ backgroundColor: "#6c757d" }}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -2379,8 +2458,9 @@ const VenueRequirementPopup = ({ onClose, onSave }) => {
       >
         <ThemeProvider theme={theme}>
           <div className="itemschoosing">
-            <h3>Venue Requirements</h3>
-            <h3>Select the items you need for your venue</h3>
+            <h3 style={{ marginBottom: "5px" }}>Venue Requirements</h3>
+
+            <p>Select the items you need for your venue</p>
             <div className="flex">
               <div className="grid-container">
                 {items.map((item) => (
@@ -2408,19 +2488,29 @@ const VenueRequirementPopup = ({ onClose, onSave }) => {
               </div>
 
               <Dialog open={quantityDialogOpen} onClose={closeQuantityDialog}>
-                <DialogTitle>Selected Items and Quantities</DialogTitle>
+                <DialogTitle>
+                  Provide the count of Your Requirements
+                </DialogTitle>
                 <DialogContent>
                   {selectedContent.map((itemName) => (
-                    <div key={itemName} style={{ marginBottom: "10px" }}>
+                    <div
+                      key={itemName}
+                      style={{
+                        marginBottom: "10px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
                       <Typography variant="body1">{itemName}</Typography>
                       <TextField
                         label="Quantity"
                         type="number"
+                        style={{ marginBottom: "10px", width: "50%" }}
                         value={quantities[itemName] || ""}
                         onChange={(e) =>
                           handleQuantityChange(itemName, e.target.value)
                         }
-                        fullWidth
                       />
                     </div>
                   ))}

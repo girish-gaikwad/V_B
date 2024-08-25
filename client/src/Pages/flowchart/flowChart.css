@@ -118,12 +118,14 @@
 
 
 .formbox {
-  border: solid black;
+  /* border: solid black; */
   width: 100px;
   height: 70px;
   border-radius: 11.05px;
 }
 .confirmsubmit {
+/* border: gold solid; */
+background-color: transparent;
   width: 100%;
   margin-bottom: 10px;
   text-align: right;
@@ -142,6 +144,10 @@
 .redProgress .MuiCircularProgress-circle {
   
   color: #fa6666 !important;
+}
+.grayProgress .MuiCircularProgress-circle {
+  
+  color: #b4b4b4 !important;
 }
 @media (max-width: 1250px) {
   .tree ul {
